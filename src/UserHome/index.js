@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import EditUser from './EditUser'
+import EntPlanner from './EntPlanner'
+import News from './News'
+import Podcast from './Podcast'
+import WorkPlanner from './WorkPlanner'
 
 
 class UserHome extends Component {
@@ -16,11 +20,12 @@ class UserHome extends Component {
       modalShowing: false,
       dayPlanner: false,
       workPlanner: false,
-      entPalnner: false,
+      entPlanner: false,
       podcast: false,
       news: false,
       activityToShow: '',
-      session: ''
+      session: '',
+      currentDate: ''
     }
 
   }
@@ -34,12 +39,24 @@ class UserHome extends Component {
         username: this.props.username
       },
       userId: this.props.id,
+      currentDate: this.getCurrentDate(),
       // an alternate username display only to be re-rendered when the edit submit is clicked
       usernameDisplay: this.props.username
 
      })
 
 
+  }
+
+  getCurrentDate = () => {
+    const months = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+    let today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = months[today.getMonth()]; //January is 0!
+    const yyyy = today.getFullYear();
+
+    today = mm + ' ' + dd + ', ' + yyyy;
+    return today
   }
 
 
@@ -154,9 +171,23 @@ class UserHome extends Component {
     
   }
   
-
+  toggleComponent = (e) => {
+    console.log(e.currentTarget);
+    this.setState({
+      [e.currentTarget.id]: true
+    })
+  }
   
-
+  homePage = () => {
+    console.log('hit home reset');
+    this.setState({
+      workPlanner: false,
+      entPlanner: false,
+      podcast: false,
+      news: false
+    })
+    console.log(this.state);
+  }
 
   render() {
     console.log('===================');
@@ -168,16 +199,35 @@ class UserHome extends Component {
                                             // in order to render the page
       display = ''
     } else {// if newActivity is true then render the NewNightForm component
-      if (this.state.dayPlanner) {
-        display = ''
-      } else if (this.state.dayPlanner === false) {//displays user home page on default
+      if (this.state.workPlanner) {
+        display = <WorkPlanner homePage={this.homePage}/>
+      } else if (this.state.entPlanner) {
+        display = <EntPlanner homePage={this.homePage}/>
+      } else if (this.state.podcast) {
+        display = <Podcast homePage={this.homePage}/>
+      } else if (this.state.news) {
+        display = <News homePage={this.homePage}/>
+      } else {//displays user home page on default
         display = (
           <div>
             <h2>{this.state.usernameDisplay}</h2>
+            <p>{this.state.currentDate}</p>
             <div className='buttonContainer'>
               <button className='largeButton' type="submit" onClick={this.deleteUser}>Delete Account</button>
               {this.state.modalShowing ? <EditUser closeAndEdit={this.closeAndEdit} handleFormChange={this.handleFormChange} userToEdit={this.state.userToEdit}/> : <button className='largeButton' type='submit' onClick={this.showModal}>Edit User</button>}
               <button className='largeButton' type="submit" onClick={this.logout}>Log Out</button>
+            </div>
+            <div id='entPlanner' onClick={this.toggleComponent}>
+              <h1>Entertainment Planner</h1>
+            </div>
+            <div id='workPlanner' onClick={this.toggleComponent}>
+              <h1>Task Planner</h1>
+            </div>
+            <div id='podcast' onClick={this.toggleComponent}>
+              <h1>Podcasts</h1>
+            </div>
+            <div id='news' onClick={this.toggleComponent}>
+              <h1>News</h1>
             </div>
            
             

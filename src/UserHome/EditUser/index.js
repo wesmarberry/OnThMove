@@ -2,19 +2,14 @@ import React, { Component } from 'react';
 
 
 
-class EditUser extends Component {
-	constructor() {
-		super()
-		this.state = {
-
-		}
-	}
+const EditUser = () => {
+	
 
 	
 
 
 
-	render() {
+
 		// edit form for the EditUser Component
 		return(
 			<div>
@@ -32,7 +27,7 @@ class EditUser extends Component {
 			</div>
 
 			)
-	}
+	
 
 
 }
