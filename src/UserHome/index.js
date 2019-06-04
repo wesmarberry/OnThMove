@@ -39,7 +39,7 @@ class UserHome extends Component {
         username: this.props.username
       },
       userId: this.props.id,
-      currentDate: this.getCurrentDate(),
+      currentDate: this.getCurrentDateNiceVersion(),
       // an alternate username display only to be re-rendered when the edit submit is clicked
       usernameDisplay: this.props.username
 
@@ -48,7 +48,7 @@ class UserHome extends Component {
 
   }
 
-  getCurrentDate = () => {
+  getCurrentDateNiceVersion = () => {
     const months = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     let today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
@@ -56,6 +56,16 @@ class UserHome extends Component {
     const yyyy = today.getFullYear();
 
     today = mm + ' ' + dd + ', ' + yyyy;
+    return today
+  }
+
+  getCurrentDate = () => {
+    let today = new Date();
+    const dd = String(today.getDate()).padStart(2, '0');
+    const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    const yyyy = today.getFullYear();
+
+    today = yyyy + '-' + mm + '-' + dd;
     return today
   }
 
@@ -200,7 +210,7 @@ class UserHome extends Component {
       display = ''
     } else {// if newActivity is true then render the NewNightForm component
       if (this.state.workPlanner) {
-        display = <WorkPlanner homePage={this.homePage}/>
+        display = <WorkPlanner homePage={this.homePage} getCurrentDate={this.getCurrentDate} getCurrentDateNiceVersion={this.getCurrentDateNiceVersion} userId={this.state.userId}/>
       } else if (this.state.entPlanner) {
         display = <EntPlanner homePage={this.homePage}/>
       } else if (this.state.podcast) {
