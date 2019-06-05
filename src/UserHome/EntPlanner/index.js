@@ -58,6 +58,25 @@ class EntPlanner extends Component {
       return array;
     }
 
+    deleteEnt = async (e) => {
+      console.log(e.currentTarget);
+      try {
+        const response = await fetch(process.env.REACT_APP_API_CALL + 'entertainment/' + e.currentTarget.id, {
+        method: 'DELETE',
+        credentials: 'include', // on every request we have to send the cookie
+        headers: {
+          'Content-Type': 'application/json'
+        }
+        })
+        const parsedResponse = await response.json();
+        console.log('parsed Response');
+        console.log(parsedResponse);
+        this.showDayEnt()
+      } catch (err) {
+
+      }
+    }
+
     showDayEnt = async () => {
     try {
       const response = await fetch(process.env.REACT_APP_API_CALL + 'user/' + this.props.userId, {
@@ -81,10 +100,10 @@ class EntPlanner extends Component {
       
       const formattedDaysEnt = daysEnt.map((ent, i) => {
         return (
-          <li key={ent._id}>
-            <form>
+          <li key={ent._id} id={ent._id}>
+            
               Name: {ent.name}
-            </form>
+              <button id={ent._id} onClick={this.deleteEnt}>Delete</button>
 
           </li>
           )
