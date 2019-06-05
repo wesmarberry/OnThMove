@@ -169,20 +169,61 @@ class Podcast extends Component {
       const parsedResponse = await response.json();
       console.log('parsed Response from recommended');
       console.log(parsedResponse);
-      const displaySearch = parsedResponse.data.body.recommendations.map((podcast, i) => {
-      return (
-          <li key={i}>
-            <img src={podcast.image}/><br/>
-            Title: {podcast.title}<br/>
-            <button id={podcast.id} onClick={this.addPodcast}>Add</button>
-          </li>
+      let displaySearch = ''
+      if (parsedResponse.data.body.recommendations === undefined) {
+        if (parsedResponse.data.body.results === undefined) {
+          this.setState({
+            recommended: []
+          })
+        } else {
+          displaySearch = parsedResponse.data.body.results.map((podcast, i) => {
+              return (
+                <li key={i}>
+                  <img src={podcast.image}/><br/>
+                  Title: {podcast.title_original}<br/>
+                  <button id={podcast.id} onClick={this.addPodcast}>Add</button>
+                </li>
 
-        )
-    })
+              )
+          })
+          
+        }
+      } else {
+        displaySearch = parsedResponse.data.body.recommendations.map((podcast, i) => {
+        return (
+            <li key={i}>
+              <img src={podcast.image}/><br/>
+              Title: {podcast.title}<br/>
+              <button id={podcast.id} onClick={this.addPodcast}>Add</button>
+            </li>
+
+          )
+      })
+        
+      }
       console.log(displaySearch);
       this.setState({
         recommended: displaySearch
       })
+    } catch (err) {
+
+    }
+  }
+
+  deletePodcast = async (e) => {
+    console.log(e.currentTarget.id);
+    try {
+      const response = await fetch(process.env.REACT_APP_API_CALL + 'podcast/' + e.currentTarget.id, {
+        method: 'DELETE',
+        credentials: 'include', // on every request we have to send the cookie
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const parsedResponse = await response.json();
+      console.log('parsed Response from recommended');
+      console.log(parsedResponse);
+      this.showUsersPodcasts()
     } catch (err) {
 
     }
@@ -219,7 +260,7 @@ class Podcast extends Component {
           
           <p onClick={this.props.homePage}>Back</p>
           <h2>Your Podcasts</h2>
-          <UserPodcastContainer userPodcasts={this.state.userPodcasts} showPodcast={this.showPodcast}/>
+          <UserPodcastContainer userPodcasts={this.state.userPodcasts} showPodcast={this.showPodcast} deletePodcast={this.deletePodcast}/>
           <h2>Popular Podcasts</h2>
           <PopularContainer popular={this.state.popular} addPodcast={this.addPodcast}/>
           <h2>Search</h2>
@@ -242,7 +283,7 @@ class Podcast extends Component {
           
           <p onClick={this.props.homePage}>Back</p>
           <h2>Your Podcasts</h2>
-          <UserPodcastContainer userPodcasts={this.state.userPodcasts} showPodcast={this.showPodcast}/>
+          <UserPodcastContainer userPodcasts={this.state.userPodcasts} showPodcast={this.showPodcast} deletePodcast={this.deletePodcast}/>
           <h2>Popular Podcasts</h2>
           <PopularContainer popular={this.state.popular} addPodcast={this.addPodcast}/>
           <h2>Search</h2>
