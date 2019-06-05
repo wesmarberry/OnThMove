@@ -10,8 +10,8 @@ const UserPodcastContainer = (props) => {
 		const displayPodcasts = props.userPodcasts.map((podcast, i) => {
 			return (
 					<li key={i}>
-						<img src={podcast.image}/><br/>
-						Title: {podcast.title}<br/>
+						<img id={podcast._id} src={podcast.image} onClick={props.showPodcast}/><br/>
+						Title: {podcast.name}<br/>
 						
 					</li>
 

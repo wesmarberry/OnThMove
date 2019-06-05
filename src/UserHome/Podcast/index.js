@@ -1,20 +1,32 @@
 import React, { Component } from 'react';
 import PopularContainer from './PopularContainer'
 import UserPodcastContainer from './UserPodcastContainer'
+import ShowPodcast from './ShowPodcast'
 
 class Podcast extends Component {
   constructor() {
     super();
     this.state = {
       popular: [],
-      userPodcasts: []
+      userPodcasts: [],
+      showPodcast: false,
+      podcastToShow: '',
+      playingPodcast: '',
+      search: '',
+      recommended: [],
+      searchedPodcasts: [],
+      userId: ''
     }
 
   }
 
   componentDidMount() {
+    this.setState({
+      userId: this.props.userId
+    })
     this.findPopular()
     this.showUsersPodcasts()
+    this.findRecommendedPodcasts()
   }
 
 
@@ -90,19 +102,165 @@ class Podcast extends Component {
     }
   }
 
+  showPodcast = async (e) => {
+    console.log(e.currentTarget);
+    try {
+      const response = await fetch(process.env.REACT_APP_API_CALL + 'podcast/' + e.currentTarget.id, {
+        method: 'GET',
+        credentials: 'include', // on every request we have to send the cookie
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const parsedResponse = await response.json();
+      console.log('parsed Response from show');
+      console.log(parsedResponse);
+      this.setState({
+        podcastToShow: parsedResponse.data,
+        showPodcast: true
+      })
+    } catch (err) {
+
+    }
+  }
+
+  searchPodcasts = async (e) => {
+    e.preventDefault()
+    try {
+      const response = await fetch(process.env.REACT_APP_API_CALL + 'podcast/find/' + this.state.search + '/' + this.props.userId, {
+        method: 'GET',
+        credentials: 'include', // on every request we have to send the cookie
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const parsedResponse = await response.json();
+      console.log('parsed Response from search');
+      console.log(parsedResponse);
+      const displaySearch = parsedResponse.data.body.results.map((podcast, i) => {
+      return (
+          <li key={i}>
+            <img src={podcast.image}/><br/>
+            Title: {podcast.title_original}<br/>
+            <button id={podcast.id} onClick={this.addPodcast}>Add</button>
+          </li>
+
+        )
+    })
+      console.log(displaySearch);
+      this.setState({
+        searchedPodcasts: displaySearch
+      })
+    } catch (err) {
+
+    }
+  }
+
+  findRecommendedPodcasts = async () => {
+
+    try {
+      const response = await fetch(process.env.REACT_APP_API_CALL + 'podcast/recommended/' + this.props.userId, {
+        method: 'GET',
+        credentials: 'include', // on every request we have to send the cookie
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const parsedResponse = await response.json();
+      console.log('parsed Response from recommended');
+      console.log(parsedResponse);
+      const displaySearch = parsedResponse.data.body.recommendations.map((podcast, i) => {
+      return (
+          <li key={i}>
+            <img src={podcast.image}/><br/>
+            Title: {podcast.title}<br/>
+            <button id={podcast.id} onClick={this.addPodcast}>Add</button>
+          </li>
+
+        )
+    })
+      console.log(displaySearch);
+      this.setState({
+        recommended: displaySearch
+      })
+    } catch (err) {
+
+    }
+  }
+
+  returnToPodcastHome = () => {
+    this.setState({
+      showPodcast: false,
+      searchedPodcasts: []
+    })
+  }
+
+  handleChange = (e) => {
+    
+    this.setState({
+      [e.currentTarget.name]: e.currentTarget.value
+    })
+  }
 
   render() {
+    
+    console.log('================');
+    console.log(this.state);
 
-        
 
-    return(
+    let display = ''
+    let searchDisplay = ''
+    if (this.state.showPodcast) {
+      display = <ShowPodcast podcastToShow={this.state.podcastToShow} returnToPodcastHome={this.returnToPodcastHome}/>
+    } else if (this.state.searchedPodcasts.length === 0) {
+      display = (
         <div>
           <h1>Podcast</h1>
+          
           <p onClick={this.props.homePage}>Back</p>
           <h2>Your Podcasts</h2>
-          <UserPodcastContainer userPodcasts={this.state.userPodcasts}/>
+          <UserPodcastContainer userPodcasts={this.state.userPodcasts} showPodcast={this.showPodcast}/>
           <h2>Popular Podcasts</h2>
           <PopularContainer popular={this.state.popular} addPodcast={this.addPodcast}/>
+          <h2>Search</h2>
+          <form onSubmit={this.searchPodcasts}>
+            <input type='text' name='search' value={this.state.search} onChange={this.handleChange}/>
+            <button type='submit'>Search</button>
+          </form><br/>
+          <h2>Recommended For You</h2>
+          {this.state.recommended}
+
+
+
+         
+        </div>
+        )
+    } else {
+      display = (
+        <div>
+          <h1>Podcast</h1>
+          
+          <p onClick={this.props.homePage}>Back</p>
+          <h2>Your Podcasts</h2>
+          <UserPodcastContainer userPodcasts={this.state.userPodcasts} showPodcast={this.showPodcast}/>
+          <h2>Popular Podcasts</h2>
+          <PopularContainer popular={this.state.popular} addPodcast={this.addPodcast}/>
+          <h2>Search</h2>
+          <form onSubmit={this.searchPodcasts}>
+            <input type='text' name='search' value={this.state.search} onChange={this.handleChange}/>
+            <button type='submit'>Search</button>
+          </form>
+          {this.state.searchedPodcasts}
+
+
+
+         
+        </div>
+        )
+    }
+    return(
+        <div>
+          {display}
 
          
         </div>
