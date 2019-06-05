@@ -212,7 +212,7 @@ class UserHome extends Component {
       if (this.state.workPlanner) {
         display = <WorkPlanner homePage={this.homePage} getCurrentDate={this.getCurrentDate} getCurrentDateNiceVersion={this.getCurrentDateNiceVersion} userId={this.state.userId}/>
       } else if (this.state.entPlanner) {
-        display = <EntPlanner homePage={this.homePage}/>
+        display = <EntPlanner homePage={this.homePage} getCurrentDate={this.getCurrentDate} getCurrentDateNiceVersion={this.getCurrentDateNiceVersion} userId={this.state.userId}/>
       } else if (this.state.podcast) {
         display = <Podcast homePage={this.homePage}/>
       } else if (this.state.news) {

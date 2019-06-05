@@ -7,6 +7,7 @@ class WorkPlanner extends Component {
     this.state = {
       date: '',
       currentDate: '',
+      rawCurrentDate: '',
       tasks: [],
       newTask: {
         title: '',
@@ -29,6 +30,7 @@ class WorkPlanner extends Component {
     this.setState({
       date: this.props.getCurrentDate(),
       currentDate: this.props.getCurrentDateNiceVersion(),
+      rawCurrentDate: this.props.getCurrentDate(),
       userId: this.props.userId,
       newTask: {
         userId: this.props.userId,
@@ -149,6 +151,31 @@ class WorkPlanner extends Component {
     return numDate
   }
 
+  
+
+  sortTasks = (array) => {
+    const a = []
+    const b = []
+    const c = []
+    for (let i = 0; i < array.length; i++) {
+      if (array[i].priority == 1) {
+        a.push(array[i])
+      }
+      if (array[i].priority == 2) {
+        b.push(array[i])
+      }
+      if (array[i].priority == 3) {
+        c.push(array[i])
+      }
+
+    }
+   
+
+    const finalArr = a.concat(b.concat(c))
+    return finalArr
+  }
+
+  
 
   showDayTasks = async () => {
     try {
@@ -168,12 +195,17 @@ class WorkPlanner extends Component {
 
         if (task.date === this.state.date) {
           return task
-        } else if (this.convertDateToNumber(task.date) < this.convertDateToNumber(this.state.date) && task.completed === 'false') {
+        } else if (this.convertDateToNumber(task.date) < this.convertDateToNumber(this.state.rawCurrentDate) && task.completed === 'false') {
           task.date = this.state.date
           return task
         }
       })
-      const formattedDaysTasks = daysTasks.map((task, i) => {
+      console.log(daysTasks);
+      const newDaysTasks = this.sortTasks(daysTasks)
+
+      console.log('this is new days tasks');
+      console.log(newDaysTasks);
+      const formattedDaysTasks = newDaysTasks.map((task, i) => {
         return (
           <li key={task._id}>
             <form>
@@ -194,18 +226,18 @@ class WorkPlanner extends Component {
               Time: 
               <select name="time" className={task._id} value={task.time} onChange={this.editTask}>
               <option value="default" disabled>Time</option>
-              <option value="N/A">N/A</option>
-              <option value="7AM">7AM</option>
-              <option value="8AM">8AM</option>
-              <option value="9AM">9AM</option>
-              <option value="10AM">10AM</option>
-              <option value="11AM">11AM</option>
-              <option value="12PM">12PM</option>
-              <option value="1PM">1PM</option>
-              <option value="2PM">2PM</option>
-              <option value="3PM">3PM</option>
-              <option value="4PM">4PM</option>
-              <option value="5PM">5PM</option>
+              <option value="0">N/A</option>
+              <option value="7">7AM</option>
+              <option value="8">8AM</option>
+              <option value="9">9AM</option>
+              <option value="10">10AM</option>
+              <option value="11">11AM</option>
+              <option value="12">12PM</option>
+              <option value="13">1PM</option>
+              <option value="14">2PM</option>
+              <option value="15">3PM</option>
+              <option value="16">4PM</option>
+              <option value="17">5PM</option>
              </select>
             </form>
 
@@ -251,17 +283,17 @@ class WorkPlanner extends Component {
             <select name="time" onChange={this.handleNewTaskChange} placeholder='time' value={this.state.newTask.time}>
             <option value="default" disabled>Time</option>
               <option value="N/A">N/A</option>
-              <option value="7AM">7AM</option>
-              <option value="8AM">8AM</option>
-              <option value="9AM">9AM</option>
-              <option value="10AM">10AM</option>
-              <option value="11AM">11AM</option>
-              <option value="12PM">12PM</option>
-              <option value="1PM">1PM</option>
-              <option value="2PM">2PM</option>
-              <option value="3PM">3PM</option>
-              <option value="4PM">4PM</option>
-              <option value="5PM">5PM</option>
+              <option value="7">7AM</option>
+              <option value="8">8AM</option>
+              <option value="9">9AM</option>
+              <option value="10">10AM</option>
+              <option value="11">11AM</option>
+              <option value="12">12PM</option>
+              <option value="13">1PM</option>
+              <option value="14">2PM</option>
+              <option value="15">3PM</option>
+              <option value="16">4PM</option>
+              <option value="17">5PM</option>
              </select>
              <button type='submit'>Create New Task</button>
          </form>
