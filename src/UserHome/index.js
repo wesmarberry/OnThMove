@@ -214,7 +214,7 @@ class UserHome extends Component {
       } else if (this.state.entPlanner) {
         display = <EntPlanner homePage={this.homePage} getCurrentDate={this.getCurrentDate} getCurrentDateNiceVersion={this.getCurrentDateNiceVersion} userId={this.state.userId}/>
       } else if (this.state.podcast) {
-        display = <Podcast homePage={this.homePage}/>
+        display = <Podcast homePage={this.homePage} userId={this.state.userId}/>
       } else if (this.state.news) {
         display = <News homePage={this.homePage}/>
       } else {//displays user home page on default

@@ -255,6 +255,7 @@ class EntPlanner extends Component {
               <button type='submit'>Add</button>
             </form>
             <button onClick={this.deleteFoundEnt}>Delete</button>
+
           </li>
 
 
