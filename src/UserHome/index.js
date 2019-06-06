@@ -216,7 +216,7 @@ class UserHome extends Component {
       } else if (this.state.podcast) {
         display = <Podcast homePage={this.homePage} userId={this.state.userId}/>
       } else if (this.state.news) {
-        display = <News homePage={this.homePage}/>
+        display = <News homePage={this.homePage} userId={this.state.userId}/>
       } else {//displays user home page on default
         display = (
           <div>

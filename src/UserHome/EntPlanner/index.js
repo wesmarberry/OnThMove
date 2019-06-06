@@ -122,7 +122,7 @@ class EntPlanner extends Component {
 
     addEnt = async (e) => {
       e.preventDefault()
-      console.log(e.currentTarget);
+      console.log(e);
       const entDbEntry = {}
       entDbEntry.name = e.currentTarget.name.value
       entDbEntry.lat = e.currentTarget.lat.value
@@ -131,6 +131,8 @@ class EntPlanner extends Component {
       entDbEntry.userId = e.currentTarget.userId.value
       entDbEntry.apiId = e.currentTarget.apiId.value
       console.log(entDbEntry);
+      const index = e.currentTarget.id
+      console.log(index);
       try {
         const response = await fetch(process.env.REACT_APP_API_CALL + 'entertainment/add', {
           method: 'POST',
@@ -143,6 +145,8 @@ class EntPlanner extends Component {
         const parsedResponse = await response.json();
         console.log('parsed Response from add');
         console.log(parsedResponse);
+        console.log(e.currentTarget.id);
+        this.deleteFoundEnt(e, index)
         this.showDayEnt()
       } catch (err) {
         console.log(err);
@@ -167,7 +171,7 @@ class EntPlanner extends Component {
         const formattedRelated = parsedResponse.data.map((place, i) => {
         return (
             <li key={i}>
-              <form onSubmit={this.addEnt}>
+              <form id={i} onSubmit={this.addEnt}>
                 Name: {place.name} 
                 <input type='hidden' name='name' value={place.name}/>
                 <input type='hidden' name='lat' value={place.geometry.location.latitude}/>
@@ -177,7 +181,7 @@ class EntPlanner extends Component {
                 <input type='hidden' name='apiId' value={place.id}/>
                 <button type='submit'>Add</button>
               </form>
-              <button onClick={this.deleteFoundEnt}>Delete</button>
+              <button id={i} onClick={this.deleteFoundEnt}>Delete</button>
             </li>
 
 
@@ -227,24 +231,45 @@ class EntPlanner extends Component {
       }
     }
 
-    deleteFoundEnt = (e) => {
+    deleteFoundEnt = (e, index) => {
       let stateCopy = this.state
       console.log(stateCopy);
-      console.log(e.currentTarget.id);
-      stateCopy.formattedRelated.splice(e.currentTarget.id, 1)
-      stateCopy.related.splice(e.currentTarget.id, 1)
-      if (stateCopy.formattedRelated.length !== 0) {
-        this.setState({
-          formattedRelated: stateCopy.formattedRelated,
-          related: stateCopy.related
-        })
+      console.log('===================');
+      console.log(e);
+
+      if (index === undefined) {
+        stateCopy.formattedRelated.splice(e.currentTarget.id, 1)
+        stateCopy.related.splice(e.currentTarget.id, 1)
+        if (stateCopy.formattedRelated.length !== 0) {
+          this.setState({
+            formattedRelated: stateCopy.formattedRelated,
+            related: stateCopy.related
+          })
+          
+        } else {
+          this.setState({
+            formattedRelated: stateCopy.formattedRelated,
+            related: stateCopy.related
+          })
+          this.findRelated()
+        }
         
       } else {
-        this.setState({
-          formattedRelated: stateCopy.formattedRelated,
-          related: stateCopy.related
-        })
-        this.findRelated()
+        stateCopy.formattedRelated.splice(index, 1)
+        stateCopy.related.splice(index, 1)
+        if (stateCopy.formattedRelated.length !== 0) {
+          this.setState({
+            formattedRelated: stateCopy.formattedRelated,
+            related: stateCopy.related
+          })
+          
+        } else {
+          this.setState({
+            formattedRelated: stateCopy.formattedRelated,
+            related: stateCopy.related
+          })
+          this.findRelated()
+        }
       }
     }
 
@@ -269,7 +294,7 @@ class EntPlanner extends Component {
         const formattedRelated = newResponse.map((place, i) => {
         return (
             <li key={i} id={i}>
-              <form onSubmit={this.addEnt}>
+              <form id={i} onSubmit={this.addEnt}>
                 Name: {place.name} 
                 <input type='hidden' name='name' value={place.name}/>
                 <input type='hidden' name='lat' value={place.geometry.location.lat}/>
@@ -277,11 +302,11 @@ class EntPlanner extends Component {
                 <input type='hidden' name='date' value={this.state.date}/>
                 <input type='hidden' name='userId' value={this.state.userId}/>
                 <input type='hidden' name='apiId' value={place.id}/>
-                <button type='submit'>Add</button>
+                <button  type='submit'>Add</button>
 
 
               </form>
-              <button onClick={this.deleteFoundEnt}>Delete</button>
+              <button id={i} onClick={this.deleteFoundEnt}>Delete</button>
 
 
             </li>
