@@ -10,7 +10,8 @@ class News extends Component {
       recommended: [],
       formattedRecommended: [],
       userArticles: [],
-      formattedUserArticles: []
+      formattedUserArticles: [],
+      search: ''
     }
 
   }
@@ -59,6 +60,25 @@ showUserArticles = async () => {
     }
   }
 
+  deleteArticle = async (e) => {
+    console.log(e.currentTarget.id);
+    try {
+      const response = await fetch(process.env.REACT_APP_API_CALL + 'news/' + e.currentTarget.id, {
+        method: 'DELETE',
+        credentials: 'include', // on every request we have to send the cookie
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const parsedResponse = await response.json();
+      console.log('parsed Response from deleted');
+      console.log(parsedResponse);
+      this.showUserArticles()
+    } catch (err) {
+
+    }
+  }
+
   getTopHeadlines = async () => {
     try {
       const response = await fetch(process.env.REACT_APP_API_CALL + 'news/top', {
@@ -71,13 +91,21 @@ showUserArticles = async () => {
       const parsedResponse = await response.json();
       console.log('parsed Response from Top');
       console.log(parsedResponse);
-      const formattedTopHeadlines = parsedResponse.data.map((article) => {
+      const formattedTopHeadlines = parsedResponse.data.map((article, i) => {
         return (
-            <li>
-              <form>
+            <li key={i}>
+              <form id={i} onSubmit={this.addArticle}>
                 <img src={article.urlToImage}/><br/>
                 {article.title}
+                <input type='hidden' name='content' value={article.content}/>
+                <input type='hidden' name='description' value={article.description}/>
+                <input type='hidden' name='author' value={article.author}/>
+                <input type='hidden' name='publishedDate' value={article.publishedAt}/>
+                <input type='hidden' name='image' value={article.urlToImage}/>
+                <input type='hidden' name='title' value={article.title}/>
+                <button type='submit'>Add</button>
               </form>
+              
             </li>
          )
       })
@@ -116,7 +144,7 @@ showUserArticles = async () => {
                 <input type='hidden' name='title' value={article.title}/>
                 <button type='submit'>Add</button>
               </form>
-              <button id={i} onClick={this.deleteFoundEnt}>Delete</button>
+              
             </li>
          )
       })
@@ -129,6 +157,48 @@ showUserArticles = async () => {
     }
   }
   
+  searchNews = async (e) => {
+    e.preventDefault()
+    console.log('hitting searchNews');
+    try {
+      const response = await fetch(process.env.REACT_APP_API_CALL + 'news/' + this.state.search + '/' + this.props.userId + '/search', {
+          method: 'GET',
+          credentials: 'include', // on every request we have to send the cookie
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+      const parsedResponse = await response.json();
+      console.log('parsed Response from search');
+      console.log(parsedResponse);
+      const formattedRecommended = parsedResponse.data.map((article, i) => {
+        return (
+            <li key={i}>
+              <form id={i} onSubmit={this.addArticle}>
+                <img src={article.urlToImage}/><br/>
+                {article.title}
+                <input type='hidden' name='content' value={article.content}/>
+                <input type='hidden' name='description' value={article.description}/>
+                <input type='hidden' name='author' value={article.author}/>
+                <input type='hidden' name='publishedDate' value={article.publishedAt}/>
+                <input type='hidden' name='image' value={article.urlToImage}/>
+                <input type='hidden' name='title' value={article.title}/>
+                <button type='submit'>Add</button>
+              </form>
+              
+            </li>
+         )
+      })
+      this.setState({
+        recommended: parsedResponse.data,
+        formattedRecommended: formattedRecommended,
+        search: ''
+      })
+    } catch (err) {
+
+    }
+  }
+
   addArticle = async (e) => {
       e.preventDefault()
       console.log(e);
@@ -163,6 +233,12 @@ showUserArticles = async () => {
 
     }
 
+    handleChange = (e) => {
+    
+    this.setState({
+        [e.currentTarget.name]: e.currentTarget.value
+      })
+    }
 
   render() {
 
@@ -176,14 +252,18 @@ showUserArticles = async () => {
             Your Articles
           </h2>
             {this.state.formattedUserArticles}
-          <h2>
-            Top Headlines
-          </h2>
-            {this.state.formattedTopHeadlines}
+          <form onSubmit={this.searchNews}>
+            <input type='text' name='search' value={this.state.search} onChange={this.handleChange}/>
+            <button type='submit'>Search</button>
+          </form>
           <h2>
             Recommended For You
           </h2>
             {this.state.formattedRecommended}
+          <h2>
+            Top Headlines
+          </h2>
+            {this.state.formattedTopHeadlines}
         </div>
       )
     
