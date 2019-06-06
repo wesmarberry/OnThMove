@@ -18,7 +18,8 @@ class WorkPlanner extends Component {
         date: ''
       },
       editTask: {},
-      taskIdToEdit: ''
+      taskIdToEdit: '',
+      rawTasks: []
       }
     }
 
@@ -37,6 +38,7 @@ class WorkPlanner extends Component {
         date: this.props.getCurrentDate()
       }
     })
+    this.updateDateOnPastTasks()
     this.showDayTasks()
   }
 
@@ -146,7 +148,7 @@ class WorkPlanner extends Component {
   }
 
   convertDateToNumber = (date) => {
-    const newDate = date.replace(/-/g, '')
+    const newDate = date.split('-').join('')
     const numDate = Number(newDate)
     return numDate
   }
@@ -175,9 +177,30 @@ class WorkPlanner extends Component {
     return finalArr
   }
 
-  
+  updateDateOnPastTasks = async (id) => {
+
+    
+    try {
+      const response = await fetch(process.env.REACT_APP_API_CALL + 'task/updateall', {
+        method: 'PUT',
+        credentials: 'include', // on every request we have to send the cookie
+        body: JSON.stringify(this.state),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      const parsedResponse = await response.json();
+      console.log('parsed Response on update date');
+      console.log(parsedResponse);
+      
+
+    } catch (err) {
+
+    }
+  }
 
   showDayTasks = async () => {
+    
     try {
       const response = await fetch(process.env.REACT_APP_API_CALL + 'user/' + this.props.userId, {
         method: 'GET',
@@ -190,14 +213,17 @@ class WorkPlanner extends Component {
       const parsedResponse = await response.json();
       console.log('parsed Response');
       console.log(parsedResponse);
-      const daysTasks = parsedResponse.data.tasks.filter((task) => {
+      const daysTasks = await parsedResponse.data.tasks.filter((task) => {
 
 
         if (task.date === this.state.date) {
           return task
-        } else if (this.convertDateToNumber(task.date) < this.convertDateToNumber(this.state.rawCurrentDate) && task.completed === 'false') {
-          task.date = this.state.date
+        }
+        if ((this.convertDateToNumber(task.date) < this.convertDateToNumber(this.state.rawCurrentDate)) && (task.completed === 'false')) {
+          task.date = this.state.rawCurrentDate
+
           return task
+          
         }
       })
       console.log(daysTasks);
@@ -246,6 +272,7 @@ class WorkPlanner extends Component {
       })
       this.setState({
         tasks: formattedDaysTasks,
+        rawTasks: parsedResponse.data.tasks
 
 
       })

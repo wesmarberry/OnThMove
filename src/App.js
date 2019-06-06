@@ -56,7 +56,7 @@ class App extends Component {
     let display = '' 
     // if login successful render the user home page ie. "UserContainer" component
     if (this.state.logged) {
-      display = <UserHome username={this.state.username} email={this.state.email} id={this.state.userId} resetToLogin={this.resetToLogin}/>
+      display = <UserHome username={this.state.username} email={this.state.email} id={this.state.userId} resetToLogin={this.resetToLogin} position={this.state.position}/>
     } else if (this.state.needToRegister) { // if the user needs to register, render the register component
       display = <Register setUser={this.setUser} resetToLogin={this.resetToLogin}/>
     } else {// if the user if not logged in or needs to register, display the log in component

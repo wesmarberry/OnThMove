@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CoolMap from './Map'
 
 
 class EntPlanner extends Component {
@@ -13,9 +14,7 @@ class EntPlanner extends Component {
       related: [],
       formattedRelated: [],
       daysEnt: [],
-      customEnt: {
-        name: ''
-      }
+      customEnt: ''
     }
 
   }
@@ -204,9 +203,24 @@ class EntPlanner extends Component {
       })
     }
 
-    createCustomEnt = (e) => {
+    createCustomEnt = async (e) => {
       e.preventDefault()
       try {
+        const response = await fetch(process.env.REACT_APP_API_CALL + 'entertainment/custom', {
+          method: 'POST',
+          credentials: 'include', // on every request we have to send the cookie
+          body: JSON.stringify(this.state),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        const parsedResponse = await response.json();
+        console.log('parsed Response from custom');
+        console.log(parsedResponse);
+        this.setState({
+          customEnt: ''
+        })
+        this.showDayEnt()
 
       } catch (err) {
 
@@ -216,12 +230,22 @@ class EntPlanner extends Component {
     deleteFoundEnt = (e) => {
       let stateCopy = this.state
       console.log(stateCopy);
+      console.log(e.currentTarget.id);
       stateCopy.formattedRelated.splice(e.currentTarget.id, 1)
       stateCopy.related.splice(e.currentTarget.id, 1)
-      this.setState({
-        formattedRelated: stateCopy.formattedRelated,
-        related: stateCopy.related
-      })
+      if (stateCopy.formattedRelated.length !== 0) {
+        this.setState({
+          formattedRelated: stateCopy.formattedRelated,
+          related: stateCopy.related
+        })
+        
+      } else {
+        this.setState({
+          formattedRelated: stateCopy.formattedRelated,
+          related: stateCopy.related
+        })
+        this.findRelated()
+      }
     }
 
   findRelated = async () => {
@@ -239,33 +263,39 @@ class EntPlanner extends Component {
       const parsedResponse = await response.json();
       console.log('parsed Response from related');
       console.log(parsedResponse);
-      const newResponse = this.shuffle(parsedResponse.data)
-      console.log(newResponse);
-      const formattedRelated = newResponse.map((place, i) => {
-      return (
-          <li key={i} id={i}>
-            <form onSubmit={this.addEnt}>
-              Name: {place.name} 
-              <input type='hidden' name='name' value={place.name}/>
-              <input type='hidden' name='lat' value={place.geometry.location.lat}/>
-              <input type='hidden' name='lng' value={place.geometry.location.lng}/>
-              <input type='hidden' name='date' value={this.state.date}/>
-              <input type='hidden' name='userId' value={this.state.userId}/>
-              <input type='hidden' name='apiId' value={place.id}/>
-              <button type='submit'>Add</button>
-            </form>
-            <button onClick={this.deleteFoundEnt}>Delete</button>
-
-          </li>
+      if (parsedResponse.status === 200) {
+        const newResponse = this.shuffle(parsedResponse.data)
+        console.log(newResponse);
+        const formattedRelated = newResponse.map((place, i) => {
+        return (
+            <li key={i} id={i}>
+              <form onSubmit={this.addEnt}>
+                Name: {place.name} 
+                <input type='hidden' name='name' value={place.name}/>
+                <input type='hidden' name='lat' value={place.geometry.location.lat}/>
+                <input type='hidden' name='lng' value={place.geometry.location.lng}/>
+                <input type='hidden' name='date' value={this.state.date}/>
+                <input type='hidden' name='userId' value={this.state.userId}/>
+                <input type='hidden' name='apiId' value={place.id}/>
+                <button type='submit'>Add</button>
 
 
-        )
-      })
-      this.setState({
-        related: newResponse,
-        formattedRelated: formattedRelated
+              </form>
+              <button onClick={this.deleteFoundEnt}>Delete</button>
 
-      })
+
+            </li>
+
+
+          )
+        })
+        this.setState({
+          related: newResponse,
+          formattedRelated: formattedRelated
+
+        })
+        
+      }
 
     } catch (err) {
 
@@ -279,7 +309,7 @@ class EntPlanner extends Component {
     console.log(this.state);
     let display = ''
     if (this.state.formattedRelated.length === 0) {
-      display = ''
+      display = 'Loading......'
     } else {
       display = (
           <div>
@@ -294,7 +324,7 @@ class EntPlanner extends Component {
           {this.state.formattedDaysEnt}
           </ul>
           <form onSubmit={this.createCustomEnt}>
-            <input type='text' name='name' value={this.state.customEnt}/>
+            <input type='text' name='customEnt' value={this.state.customEnt} onChange={this.handleChange}/>
             <button type='submit'>Create Custom</button>
           </form>
           <form onSubmit={this.searchEnt}>
@@ -304,6 +334,7 @@ class EntPlanner extends Component {
           <ul>
           {this.state.formattedRelated}
           </ul>
+          <CoolMap related={this.state.related} daysEnt={this.state.daysEnt} position={this.props.position}/>
         </div>
 
         )

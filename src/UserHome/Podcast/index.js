@@ -246,7 +246,7 @@ class Podcast extends Component {
   render() {
     
     console.log('================');
-    console.log(this.state);
+    console.log(this.props.position);
 
 
     let display = ''
