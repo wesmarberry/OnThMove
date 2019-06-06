@@ -94,26 +94,30 @@ class Register extends Component {
   render() {
 
         let display = ''
+        let message = ''
         if (this.state.lat !== 0) {// if the users location is not found then registration is not available
                                   // users must have location services enabled to register
-          display = <input className='largeButton' type="submit" value="Register" />
+          display = <button className='button' type="submit">Register</button>
+          message = ''
         } else {
-          display = <p className='redMessage'>...Getting Your Location...<br/>*Location Services Must be Enabled to Enable Registration</p>
+          message = <p className='redMessage'>...Getting Your Location...<br/>*Location Services Must be Enabled to Enable Registration</p>
+          display = ''
         }
 
     return(
-        <div>
-          
+        <div className='login'>
+          <br/>
+          <img className='image-logo' src='image (7).png'/><br/>
           <form className='loginForm' onSubmit={this.handleSubmit}>
             <input type="text" name="email" placeholder="email" value={this.state.email} onChange={this.handleChange}/><br/>
             <input type="text" name="username" placeholder="username" value={this.state.username} onChange={this.handleChange}/><br/>
             <input type="password" name="password" placeholder="password" value={this.state.password} onChange={this.handleChange}/><br/>
             <div className='loginButtonContainer'>
               {display}
-              <button className='largeButton' onClick={this.props.resetToLogin}>Return To Login</button>
+              <button className='button' onClick={this.props.resetToLogin}>Return To Login</button>
             </div>
           </form>
-          <p className='redMessage'>{this.state.message}</p>
+          {message}
         </div>
       )
     

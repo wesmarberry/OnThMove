@@ -10,7 +10,6 @@ class WorkPlanner extends Component {
       rawCurrentDate: '',
       tasks: [],
       newTask: {
-        title: '',
         description: '',
         priority: 'default',
         time: 'default',
@@ -85,7 +84,6 @@ class WorkPlanner extends Component {
       console.log(parsedResponse);
       this.setState({
         newTask: {
-          title: '',
           description: '',
           priority: 'default',
           time: 'default',
@@ -234,37 +232,42 @@ class WorkPlanner extends Component {
       const formattedDaysTasks = newDaysTasks.map((task, i) => {
         return (
           <li key={task._id}>
-            <form>
-              Completed: 
-              <select name="completed" className={task._id} value={task.completed} onChange={this.editTask}>
-                <option value="true">Yes</option>
-                <option value="false">No</option>
-              </select>
-              Priority: 
-              <select name="priority" className={task._id} value={task.priority} onChange={this.editTask}>
-                <option value="default" disabled>Priority</option>
-                <option value="1">A</option>
-                <option value="2">B</option>
-                <option value="3">C</option>
-              </select>
-              Title: {task.title}
-              Description: {task.description}
-              Time: 
-              <select name="time" className={task._id} value={task.time} onChange={this.editTask}>
-              <option value="default" disabled>Time</option>
-              <option value="0">N/A</option>
-              <option value="7">7AM</option>
-              <option value="8">8AM</option>
-              <option value="9">9AM</option>
-              <option value="10">10AM</option>
-              <option value="11">11AM</option>
-              <option value="12">12PM</option>
-              <option value="13">1PM</option>
-              <option value="14">2PM</option>
-              <option value="15">3PM</option>
-              <option value="16">4PM</option>
-              <option value="17">5PM</option>
-             </select>
+            <form className='taskForm'>
+              <div className='completedColumn'> 
+                <select name="completed" className={task._id} value={task.completed} onChange={this.editTask}>
+                  <option value="true">Yes</option>
+                  <option value="false">No</option>
+                </select>
+              </div>
+              <div className='priorityColumn'>
+                <select name="priority" className={task._id} value={task.priority} onChange={this.editTask}>
+                  <option value="default" disabled>Priority</option>
+                  <option value="1">A</option>
+                  <option value="2">B</option>
+                  <option value="3">C</option>
+                </select>
+              </div>
+              
+              <div className='descriptionColumn'>
+                {task.description}
+              </div>
+              <div className='timeColumn'>
+                <select name="time" className={task._id} value={task.time} onChange={this.editTask}>
+                <option value="default" disabled>Time</option>
+                <option value="0">N/A</option>
+                <option value="7">7AM</option>
+                <option value="8">8AM</option>
+                <option value="9">9AM</option>
+                <option value="10">10AM</option>
+                <option value="11">11AM</option>
+                <option value="12">12PM</option>
+                <option value="13">1PM</option>
+                <option value="14">2PM</option>
+                <option value="15">3PM</option>
+                <option value="16">4PM</option>
+                <option value="17">5PM</option>
+               </select>
+              </div>
             </form>
 
           </li>
@@ -289,41 +292,73 @@ class WorkPlanner extends Component {
     console.log(this.state);
     return(
         <div>
-         <h1>Work Planner</h1> 
-         <p onClick={this.props.homePage}>Back</p>
-         <p>{this.state.currentDate}</p>
-         <form>
-          <input type='date' name='date' value={this.state.date} onChange={this.changeDate}/>
-         </form>
-         <ul>
-          {this.state.tasks}
-         </ul>
-         <form onSubmit={this.createNewTask}>
-            <select name="priority" onChange={this.handleNewTaskChange} placeholder='Priority' value={this.state.newTask.priority}>
-              <option value="default" disabled selected>Priority</option>
-              <option value="1">A</option>
-              <option value="2">B</option>
-              <option value="3">C</option>
-            </select>
-            <input type='text' name='title' value={this.state.newTask.title} onChange={this.handleNewTaskChange} placeholder='title'/>
-            <input type='text' name='description' value={this.state.newTask.description} onChange={this.handleNewTaskChange} placeholder='description'/>
-            <select name="time" onChange={this.handleNewTaskChange} placeholder='time' value={this.state.newTask.time}>
-            <option value="default" disabled>Time</option>
-              <option value="N/A">N/A</option>
-              <option value="7">7AM</option>
-              <option value="8">8AM</option>
-              <option value="9">9AM</option>
-              <option value="10">10AM</option>
-              <option value="11">11AM</option>
-              <option value="12">12PM</option>
-              <option value="13">1PM</option>
-              <option value="14">2PM</option>
-              <option value="15">3PM</option>
-              <option value="16">4PM</option>
-              <option value="17">5PM</option>
-             </select>
-             <button type='submit'>Create New Task</button>
-         </form>
+          <div className='between-flex-container'>
+              <img className='image-logo-small' src='image (7).png'/>
+              <div className='buttonContainer center-column-flex-container'>
+               <h1>Task Planner</h1> 
+               <button class='button' onClick={this.props.homePage}>Back</button>
+                
+              </div>
+
+          </div>
+
+          <div className='between-flex-container'>
+              <p className='currentDate'>{this.state.currentDate}</p>
+              <form>
+                <input className='dateChanger' type='date' name='date' value={this.state.date} onChange={this.changeDate}/>
+              </form>
+          </div>
+
+
+        
+         <div className='center-column-flex-container'>
+           <ul className='taskContainer'>
+            <li className='listHeader'>
+              <div className='taskForm'>
+                <div className='completedColumn'>
+                  Completed
+                </div>
+                <div className='priorityColumn'>
+                  Priority
+                </div>
+                
+                <div className='descriptionColumn'>
+                  Description
+                </div>
+                <div className='timeColumn'>
+                  Time
+                </div>
+              </div>
+            </li>
+            {this.state.tasks}
+           </ul>
+           <form onSubmit={this.createNewTask}>
+              <select className='select-css'name="priority" onChange={this.handleNewTaskChange} placeholder='Priority' value={this.state.newTask.priority}>
+                <option value="default" disabled selected>Priority</option>
+                <option value="1">A</option>
+                <option value="2">B</option>
+                <option value="3">C</option>
+              </select>
+              
+              <input type='text' name='description' value={this.state.newTask.description} onChange={this.handleNewTaskChange} placeholder='description'/>
+              <select name="time" onChange={this.handleNewTaskChange} placeholder='time' value={this.state.newTask.time}>
+              <option value="default" disabled>Time</option>
+                <option value="N/A">N/A</option>
+                <option value="7">7AM</option>
+                <option value="8">8AM</option>
+                <option value="9">9AM</option>
+                <option value="10">10AM</option>
+                <option value="11">11AM</option>
+                <option value="12">12PM</option>
+                <option value="13">1PM</option>
+                <option value="14">2PM</option>
+                <option value="15">3PM</option>
+                <option value="16">4PM</option>
+                <option value="17">5PM</option>
+               </select>
+               <button type='submit'>Create New Task</button>
+           </form>
+          </div>
 
         </div>
       )

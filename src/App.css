@@ -23,6 +23,183 @@
   color: #61dafb;
 }
 
+body {
+  background-image: url('/Train-img.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.image-logo {
+  border-radius: 50px;
+  height: 200px;
+}
+
+.image-logo-small {
+  border-radius: 40px;
+  height: 100px;
+}
+
+.loginForm {
+  background-color: #576E86;
+  width: 270px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 20px;
+}
+
+.currentDate {
+  background-color: #576E86;
+  color: white;
+  border: 3px solid black;
+  padding: 5px 3px 5px 3px;
+  border-radius: 5px;
+}
+
+.tile {
+  height: 150px;
+  width: 150px;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid black;
+}
+
+.tile:hover {
+  cursor: pointer;
+  border: 3px solid white;
+}
+
+#entPlanner {
+  background-color: #2F4F4F;
+}
+
+#workPlanner {
+  background-color: #4f2f4f;
+}
+
+#podcast {
+  background-color: #4f4f2f;
+}
+
+#news {
+  background-color: #4f2f2f;
+}
+
+.dateChanger {
+  background-color: #576E86;
+  color: white;
+  border: 3px solid black;
+  padding: 5px 3px 5px 3px;
+  border-radius: 5px;
+}
+
+.taskForm {
+  display: flex;
+  justify-content: space-around;
+}
+
+.taskContainer {
+  display: flex;
+  flex-direction: column;
+  height: 350px;
+  width: 80%;
+  background-image: url('/notebook.jpg');
+  border-radius: 20px;
+  box-shadow: 5px 5px black;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+.taskContainer li {
+  margin-left: -30px;
+  margin-bottom: 10px;
+}
+
+.loginForm input, .center-column-flex-container div form label input {
+  border-radius: 5px;
+  height: 20px;
+  margin-bottom: 10px;
+}
+
+
+ .listHeader div div {
+  font-size: 12px;
+  text-decoration: underline;
+ }
+
+
+ul {
+  list-style: none;
+}
+
+.login {
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+}
+
+.tileRow {
+  margin-top: 30px;
+}
+
+.completedColumn {
+  width: 20%;
+}
+
+.priorityColumn {
+  width: 15%;
+}
+
+.descriptionColumn {
+  width: 50%;
+  font-size: 12px;
+  word-wrap: break-word;
+}
+
+.timeColumn {
+  width: 15%;
+}
+
+.button {
+  display: inline-block;
+  padding: 5px;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #AAAAAA;
+  background-color: #222222;
+  border: solid 3px #AAAAAA;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+
+.button:hover {
+  color: white;
+  border: solid 3px white;
+}
+
+.redMessage {
+  font-weight: bold;
+  color: red;
+}
+
+.between-flex-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.center-column-flex-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

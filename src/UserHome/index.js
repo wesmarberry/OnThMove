@@ -220,24 +220,38 @@ class UserHome extends Component {
       } else {//displays user home page on default
         display = (
           <div>
-            <h2>{this.state.usernameDisplay}</h2>
-            <p>{this.state.currentDate}</p>
-            <div className='buttonContainer'>
-              <button className='largeButton' type="submit" onClick={this.deleteUser}>Delete Account</button>
-              {this.state.modalShowing ? <EditUser closeAndEdit={this.closeAndEdit} handleFormChange={this.handleFormChange} userToEdit={this.state.userToEdit}/> : <button className='largeButton' type='submit' onClick={this.showModal}>Edit User</button>}
-              <button className='largeButton' type="submit" onClick={this.logout}>Log Out</button>
+            <br/>
+            <div className='between-flex-container'>
+              <img className='image-logo-small' src='image (7).png'/>
+              <div className='buttonContainer center-column-flex-container'>
+                <button className='button' type="submit" onClick={this.deleteUser}>Delete Account</button>
+                {this.state.modalShowing ? <EditUser closeAndEdit={this.closeAndEdit} handleFormChange={this.handleFormChange} userToEdit={this.state.userToEdit}/> : <button className='button' type='submit' onClick={this.showModal}>Edit User</button>}
+                <button className='button' type="submit" onClick={this.logout}>Log Out</button>
+              </div>
+
             </div>
-            <div id='entPlanner' onClick={this.toggleComponent}>
-              <h1>Entertainment Planner</h1>
+            <div className='between-flex-container'>
+              <h2 className='username'>{this.state.usernameDisplay}</h2>
+              <p className='currentDate'>{this.state.currentDate}</p>
             </div>
-            <div id='workPlanner' onClick={this.toggleComponent}>
-              <h1>Task Planner</h1>
-            </div>
-            <div id='podcast' onClick={this.toggleComponent}>
-              <h1>Podcasts</h1>
-            </div>
-            <div id='news' onClick={this.toggleComponent}>
-              <h1>News</h1>
+            <div className='center-column-flex-container tileRow'>
+              <div className='between-flex-container'>
+                <div id='entPlanner' className='tile center-flex' onClick={this.toggleComponent}>
+                  <h7>Entertainment Planner</h7>
+                </div>
+                <div id='workPlanner' className='tile center-flex' onClick={this.toggleComponent}>
+                  <h7>Task Planner</h7>
+                </div>
+              </div>
+
+              <div className='between-flex-container tileRow'>
+                <div id='podcast' className='tile center-flex' onClick={this.toggleComponent}>
+                  <h7>Podcasts</h7>
+                </div>
+                <div id='news' className='tile center-flex' onClick={this.toggleComponent}>
+                  <h7>News</h7>
+                </div>
+              </div>
             </div>
            
             

@@ -99,25 +99,30 @@ class Login extends Component {
   render() {
 
         let display = ''
+        let message = ''
         if (this.state.lat !== 0) {// the login button is not displayed until the user's location is retrieved
-          display = <button className='largeButton' type="submit">Login</button>
+          	display = <button className='button' type="submit">Login</button>
+      		message = ''
         } else {
-          display = <p className='redMessage'>...Getting Your Location...<br/>*Location Services Must be Enabled to Access Login<br/></p>
+          message = <p className='redMessage'>...Getting Your Location...<br/>*Location Services Must be Enabled to Access Login<br/></p>
+          display = ''
         }
 
     return(
-        <div>
-
+        <div className='login'>
+        	<br/>
+        	<img className='image-logo' src='image (7).png'/><br/>
           <form className='loginForm' onSubmit={this.handleSubmit}>
             <input type="text" name="username" placeholder="username" value={this.state.username} onChange={this.handleChange}/><br/>
             <input type="password" name="password" placeholder="password" value={this.state.password} onChange={this.handleChange}/><br/>
             <div className='loginButtonContainer'>
               {display}
-              <button className ='largeButton' onClick={this.props.showRegister}>Register</button>
+              <button className ='button' onClick={this.props.showRegister}>Register</button>
             </div>
           </form>
           
-          <p className='redMessage'>{this.state.message}</p>
+          <p className='redMessage'>{this.state.message}</p><br/>
+          {message}
         </div>
       )
     

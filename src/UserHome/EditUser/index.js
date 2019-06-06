@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 
 
-const EditUser = () => {
+const EditUser = (props) => {
 	
 
 	
@@ -12,17 +12,15 @@ const EditUser = () => {
 
 		// edit form for the EditUser Component
 		return(
-			<div>
-				<form onSubmit={this.props.closeAndEdit}>
+			<div >
+				<form onSubmit={props.closeAndEdit}className='.center-column-flex-container'>
 					<label>
-					Username:
-					<input type='text' name='username' onChange={this.props.handleFormChange} value={this.props.userToEdit.username}/>
+					<input type='text' name='username' onChange={props.handleFormChange} value={props.userToEdit.username}/>
 					</label>
 					<label>
-					Email:
-					<input type='text' name='email' onChange={this.props.handleFormChange} value={this.props.userToEdit.email}/>
+					<input type='text' name='email' onChange={props.handleFormChange} value={props.userToEdit.email}/>
 					</label>
-					<button className='largeButton' type="submit">Update User</button>
+					<button className='button' type="submit">Update User</button>
 				</form>
 			</div>
 

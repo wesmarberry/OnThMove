@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ShowNews from './ShowNews'
 
 
 class News extends Component {
@@ -11,7 +12,9 @@ class News extends Component {
       formattedRecommended: [],
       userArticles: [],
       formattedUserArticles: [],
-      search: ''
+      search: '',
+      showNews: false,
+      articleToShow: ''
     }
 
   }
@@ -39,9 +42,9 @@ showUserArticles = async () => {
       
       const formattedUserArticles = parsedResponse.data.news.map((article, i) => {
         return (
-          <li key={article._id} id={article._id}>
+          <li key={article._id} >
             
-              <img src={article.image} onClick={this.showArticle}/><br/>
+              <img src={article.image} id={article._id} onClick={this.showArticle}/><br/>
               {article.title}<br/>
               <button id={article._id} onClick={this.deleteArticle}>Delete</button>
 
@@ -103,6 +106,7 @@ showUserArticles = async () => {
                 <input type='hidden' name='publishedDate' value={article.publishedAt}/>
                 <input type='hidden' name='image' value={article.urlToImage}/>
                 <input type='hidden' name='title' value={article.title}/>
+                <input type='hidden' name='url' value={article.url}/>
                 <button type='submit'>Add</button>
               </form>
               
@@ -142,6 +146,7 @@ showUserArticles = async () => {
                 <input type='hidden' name='publishedDate' value={article.publishedAt}/>
                 <input type='hidden' name='image' value={article.urlToImage}/>
                 <input type='hidden' name='title' value={article.title}/>
+                <input type='hidden' name='url' value={article.url}/>
                 <button type='submit'>Add</button>
               </form>
               
@@ -157,6 +162,8 @@ showUserArticles = async () => {
     }
   }
   
+
+
   searchNews = async (e) => {
     e.preventDefault()
     console.log('hitting searchNews');
@@ -183,6 +190,7 @@ showUserArticles = async () => {
                 <input type='hidden' name='publishedDate' value={article.publishedAt}/>
                 <input type='hidden' name='image' value={article.urlToImage}/>
                 <input type='hidden' name='title' value={article.title}/>
+                <input type='hidden' name='url' value={article.url}/>
                 <button type='submit'>Add</button>
               </form>
               
@@ -210,6 +218,7 @@ showUserArticles = async () => {
       articleDbEntry.userId = this.props.userId
       articleDbEntry.image = e.currentTarget.image.value
       articleDbEntry.title = e.currentTarget.title.value
+      articleDbEntry.url = e.currentTarget.url.value
       console.log(articleDbEntry);
       const index = e.currentTarget.id
       console.log(index);
@@ -233,6 +242,42 @@ showUserArticles = async () => {
 
     }
 
+    showArticle = async (e) => {
+      console.log(e.currentTarget);
+      try {
+        const response = await fetch(process.env.REACT_APP_API_CALL + 'news/' + e.currentTarget.id, {
+          method: 'GET',
+          credentials: 'include', // on every request we have to send the cookie
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        const parsedResponse = await response.json();
+        console.log('parsed Response from Show');
+        console.log(parsedResponse);
+        await this.setState({
+          articleToShow: parsedResponse.data
+        })
+        this.toggleShowNews()
+      } catch (err) {
+
+      }
+    }
+
+    toggleShowNews = () => {
+      console.log('thisis state at toggle');
+      console.log(this.state);
+      if (this.state.showNews === false) {
+        this.setState({
+          showNews: true
+        })
+      } else {
+        this.setState({
+          showNews: false
+        })
+      }
+    }
+
     handleChange = (e) => {
     
     this.setState({
@@ -242,9 +287,9 @@ showUserArticles = async () => {
 
   render() {
 
-        
-
-    return(
+    let display = ''
+    if (this.state.showNews === false) {
+      display = (
         <div>
           <h1>News</h1>
           <p onClick={this.props.homePage}>Back</p>
@@ -264,6 +309,18 @@ showUserArticles = async () => {
             Top Headlines
           </h2>
             {this.state.formattedTopHeadlines}
+        </div>
+
+
+        )
+    } else {
+      display = <ShowNews articleToShow={this.state.articleToShow} toggleShowNews={this.toggleShowNews}/>
+    }
+        
+
+    return(
+        <div>
+          {display}
         </div>
       )
     
