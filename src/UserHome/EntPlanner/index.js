@@ -174,24 +174,28 @@ class EntPlanner extends Component {
         console.log(parsedResponse);
         const formattedRelated = parsedResponse.data.map((place, i) => {
         return (
-            <li key={i} className='between-flex-container ent'>
-              <form id={i} onSubmit={this.addEnt}>
+            <li key={i} id={i} className='between-flex-container ent'>
+              <form id={i} onSubmit={this.addEnt} className='between-flex-container'>
                 <div className='nameColumn'>
                 {place.name} 
                 </div>
                 <input type='hidden' name='name' value={place.name}/>
-                <input type='hidden' name='lat' value={place.geometry.location.latitude}/>
-                <input type='hidden' name='lng' value={place.geometry.location.longitude}/>
+                <input type='hidden' name='lat' value={place.geometry.location.lat}/>
+                <input type='hidden' name='lng' value={place.geometry.location.lng}/>
                 <input type='hidden' name='date' value={this.state.date}/>
                 <input type='hidden' name='userId' value={this.state.userId}/>
                 <input type='hidden' name='apiId' value={place.id}/>
                 <div className='addCol'>
                 <button  className='button' type='submit'>Add</button>
                 </div>
+
+
               </form>
               <div className='deleteCol'>
-              <button id={i} className='button' onClick={this.deleteFoundEnt}>Delete</button>
+              <button className='button' id={i} onClick={this.deleteFoundEnt}>Delete</button>
               </div>
+
+
             </li>
 
 
@@ -254,7 +258,7 @@ class EntPlanner extends Component {
         const formattedRelated = stateCopy.related.map((place, i) => {
         return (
             <li key={i} id={i} className='between-flex-container ent'>
-              <form id={i} onSubmit={this.addEnt}>
+              <form id={i} onSubmit={this.addEnt} className='between-flex-container'>
                 <div className='nameColumn'>
                 {place.name} 
                 </div>
@@ -300,7 +304,7 @@ class EntPlanner extends Component {
         const formattedRelated = stateCopy.related.map((place, i) => {
         return (
             <li key={i} id={i} className='between-flex-container ent'>
-              <form id={i} onSubmit={this.addEnt}>
+              <form id={i} onSubmit={this.addEnt} className='between-flex-container'>
                 <div className='nameColumn'>
                 {place.name} 
                 </div>
