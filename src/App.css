@@ -23,6 +23,111 @@
   color: #61dafb;
 }
 
+.entContainer {
+  background-color: #2F4F4F;
+  color: white;
+  width: 40%;
+  border-radius: 10px;
+  height: 200px;
+  word-wrap: break-word;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.redLetter {
+  color: red;
+}
+
+.underlined {
+  text-decoration: underline;
+}
+
+.yourPodcasts {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-left: -40px;
+}
+
+.yourPodcastOverallContainer div {
+  width: 100%;
+}
+
+.yourPodcasts li img {
+  height: 150px;
+}
+
+.yourPodcastOverallContainer {
+  background-color: #4f4f2f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  width: 90%;
+  border-radius: 10px;
+  color: white;
+}
+
+.popularPodcastsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #4f4f2f;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  width: 90%;
+  border-radius: 10px;
+  color: white;
+  height: 300px;
+  width: 40%;
+}
+
+.popularPodcastsContainer div ul li img {
+  height: 100px;
+}
+
+.mapKey {
+  color: white;
+  background-color: #2F4F4F;
+  border-radius: 10px;
+  width: 300px;
+  margin: 20px 0 20px 0;
+}
+
+.mapKey img {
+  height: 20px;
+}
+
+.searchForm {
+  margin-top: 10px;
+}
+
+.nameColumn {
+  width: 60%;
+}
+
+.addCol {
+  width: 15%;
+}
+
+.ent {
+  margin-left: -40px;
+  margin-bottom: 10px;
+}
+
+.addedNameColumn {
+  width: 60%;
+}
+.deleteCol {
+  width: 20%;
+}
+
+.header {
+  font-family: 'Fjalla One', sans-serif;
+}
+
 body {
   background-image: url('/Train-img.jpg');
   background-attachment: fixed;
@@ -105,7 +210,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 350px;
-  width: 80%;
+  width: 85%;
   background-image: url('/notebook.jpg');
   border-radius: 20px;
   box-shadow: 5px 5px black;
@@ -123,11 +228,48 @@ body {
   margin-bottom: 10px;
 }
 
+.newTaskForm {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 85%;
+}
+
+.newTaskForm input {
+  border-radius: 5px;
+  background-color: #576E86;
+  color: white;
+}
+
+.loading img {
+  height: 100px;
+}
+
+.loading p {
+  color: red;
+  font-weight: bold;
+}
+
+.loading {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+.newTaskForm input::placeholder {
+  color: white;
+  opacity: 0.8;
+}
 
  .listHeader div div {
   font-size: 12px;
   text-decoration: underline;
  }
+
 
 
 ul {
@@ -141,18 +283,26 @@ ul {
 }
 
 .tileRow {
+  display: flex;
+  justify-content: center;
   margin-top: 30px;
 }
 
 .completedColumn {
+  display: flex;
+  justify-content: center;
   width: 20%;
 }
 
 .priorityColumn {
-  width: 15%;
+  display: flex;
+  justify-content: center;
+  width: 10%;
 }
 
 .descriptionColumn {
+  display: flex;
+  justify-content: center;
   width: 50%;
   font-size: 12px;
   word-wrap: break-word;
@@ -187,6 +337,13 @@ ul {
   color: red;
 }
 
+.overallEntContainer {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
 .between-flex-container {
   display: flex;
   justify-content: space-around;
@@ -198,6 +355,21 @@ ul {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+
+
+@media only screen and (max-width: 660px) {
+  .overallEntContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+  .entContainer {
+    margin-bottom: 20px;
+    width: 80%;
+  }
 }
 
 @keyframes App-logo-spin {

@@ -256,13 +256,23 @@ class Podcast extends Component {
     } else if (this.state.searchedPodcasts.length === 0) {
       display = (
         <div>
-          <h1>Podcast</h1>
-          
-          <p onClick={this.props.homePage}>Back</p>
-          <h2>Your Podcasts</h2>
+          <div className='between-flex-container'>
+              <img className='image-logo-small' src='image (7).png'/>
+              <div className='buttonContainer center-column-flex-container'>
+               <h1 className='header'>T<span className='redLetter'>a</span>sk Pl<span className='redLetter'>a</span>nner</h1> 
+               <button class='button' onClick={this.props.homePage}>Back</button>
+                
+              </div>
+
+          </div>
+          <div className='yourPodcastOverallContainer'>
+          <h2 className='header'>Your Podcasts</h2>
           <UserPodcastContainer userPodcasts={this.state.userPodcasts} showPodcast={this.showPodcast} deletePodcast={this.deletePodcast}/>
-          <h2>Popular Podcasts</h2>
-          <PopularContainer popular={this.state.popular} addPodcast={this.addPodcast}/>
+          </div>
+          <div className='popularPodcastsContainer'>
+            <h2>Popular Podcasts</h2>
+            <PopularContainer popular={this.state.popular} addPodcast={this.addPodcast}/>
+          </div>
           <h2>Search</h2>
           <form onSubmit={this.searchPodcasts}>
             <input type='text' name='search' value={this.state.search} onChange={this.handleChange}/>
@@ -279,13 +289,23 @@ class Podcast extends Component {
     } else {
       display = (
         <div>
-          <h1>Podcast</h1>
-          
-          <p onClick={this.props.homePage}>Back</p>
-          <h2>Your Podcasts</h2>
-          <UserPodcastContainer userPodcasts={this.state.userPodcasts} showPodcast={this.showPodcast} deletePodcast={this.deletePodcast}/>
-          <h2>Popular Podcasts</h2>
-          <PopularContainer popular={this.state.popular} addPodcast={this.addPodcast}/>
+          <div className='between-flex-container'>
+              <img className='image-logo-small' src='image (7).png'/>
+              <div className='buttonContainer center-column-flex-container'>
+               <h1 className='header'>T<span className='redLetter'>a</span>sk Pl<span className='redLetter'>a</span>nner</h1> 
+               <button class='button' onClick={this.props.homePage}>Back</button>
+                
+              </div>
+
+          </div>
+          <div className='yourPodcastOverallContainer'>
+            <h2 className='header'>Your Podcasts</h2>
+            <UserPodcastContainer userPodcasts={this.state.userPodcasts} showPodcast={this.showPodcast} deletePodcast={this.deletePodcast}/>
+          </div>
+          <div className='popularPodcastsContainer'>
+            <h2>Popular Podcasts</h2>
+            <PopularContainer popular={this.state.popular} addPodcast={this.addPodcast}/>
+          </div>
           <h2>Search</h2>
           <form onSubmit={this.searchPodcasts}>
             <input type='text' name='search' value={this.state.search} onChange={this.handleChange}/>

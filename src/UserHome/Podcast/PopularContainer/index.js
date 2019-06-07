@@ -11,8 +11,8 @@ const PopularContainer = (props) => {
 			return (
 					<li key={i}>
 						<img src={podcast.image}/><br/>
-						Title: {podcast.title}<br/>
-						<button id={podcast.id} onClick={props.addPodcast}>Add</button>
+						{podcast.title}<br/>
+						<button className='button' id={podcast.id} onClick={props.addPodcast}>Add</button>
 					</li>
 
 				)
@@ -21,7 +21,7 @@ const PopularContainer = (props) => {
 
 		return (
 				<div>
-					<ul>
+					<ul className='center-column-flex-container'>
 					{displayPopular}
 					</ul>
 

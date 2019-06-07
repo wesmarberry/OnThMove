@@ -14,7 +14,8 @@ class EntPlanner extends Component {
       related: [],
       formattedRelated: [],
       daysEnt: [],
-      customEnt: ''
+      customEnt: '',
+      recommended: true
     }
 
   }
@@ -99,10 +100,13 @@ class EntPlanner extends Component {
       
       const formattedDaysEnt = daysEnt.map((ent, i) => {
         return (
-          <li key={ent._id} id={ent._id}>
-            
-              Name: {ent.name}
-              <button id={ent._id} onClick={this.deleteEnt}>Delete</button>
+          <li key={ent._id} id={ent._id} className='between-flex-container ent'>
+              <div className='addedNameColumn'>
+                {ent.name} 
+              </div>
+              <div className='deleteCol'>
+              <button className='button' id={ent._id} onClick={this.deleteEnt}>Delete</button>
+              </div>
 
           </li>
           )
@@ -170,18 +174,24 @@ class EntPlanner extends Component {
         console.log(parsedResponse);
         const formattedRelated = parsedResponse.data.map((place, i) => {
         return (
-            <li key={i}>
+            <li key={i} className='between-flex-container ent'>
               <form id={i} onSubmit={this.addEnt}>
-                Name: {place.name} 
+                <div className='nameColumn'>
+                {place.name} 
+                </div>
                 <input type='hidden' name='name' value={place.name}/>
                 <input type='hidden' name='lat' value={place.geometry.location.latitude}/>
                 <input type='hidden' name='lng' value={place.geometry.location.longitude}/>
                 <input type='hidden' name='date' value={this.state.date}/>
                 <input type='hidden' name='userId' value={this.state.userId}/>
                 <input type='hidden' name='apiId' value={place.id}/>
-                <button type='submit'>Add</button>
+                <div className='addCol'>
+                <button  className='button' type='submit'>Add</button>
+                </div>
               </form>
-              <button id={i} onClick={this.deleteFoundEnt}>Delete</button>
+              <div className='deleteCol'>
+              <button id={i} className='button' onClick={this.deleteFoundEnt}>Delete</button>
+              </div>
             </li>
 
 
@@ -190,6 +200,7 @@ class EntPlanner extends Component {
         this.setState({
           related: parsedResponse.data,
           formattedRelated: formattedRelated,
+          recommended: false,
           search: ''
 
         })
@@ -238,34 +249,92 @@ class EntPlanner extends Component {
       console.log(e);
 
       if (index === undefined) {
-        stateCopy.formattedRelated.splice(e.currentTarget.id, 1)
+        // stateCopy.formattedRelated.splice(e.currentTarget.id, 1)
         stateCopy.related.splice(e.currentTarget.id, 1)
+        const formattedRelated = stateCopy.related.map((place, i) => {
+        return (
+            <li key={i} id={i} className='between-flex-container ent'>
+              <form id={i} onSubmit={this.addEnt}>
+                <div className='nameColumn'>
+                {place.name} 
+                </div>
+                <input type='hidden' name='name' value={place.name}/>
+                <input type='hidden' name='lat' value={place.geometry.location.lat}/>
+                <input type='hidden' name='lng' value={place.geometry.location.lng}/>
+                <input type='hidden' name='date' value={this.state.date}/>
+                <input type='hidden' name='userId' value={this.state.userId}/>
+                <input type='hidden' name='apiId' value={place.id}/>
+                <div className='addCol'>
+                <button  className='button' type='submit'>Add</button>
+                </div>
+
+
+              </form>
+              <div className='deleteCol'>
+              <button className='button' id={i} onClick={this.deleteFoundEnt}>Delete</button>
+              </div>
+
+
+            </li>
+
+
+          )
+        })
         if (stateCopy.formattedRelated.length !== 0) {
           this.setState({
-            formattedRelated: stateCopy.formattedRelated,
+            formattedRelated: formattedRelated,
             related: stateCopy.related
           })
           
         } else {
           this.setState({
-            formattedRelated: stateCopy.formattedRelated,
+            formattedRelated: formattedRelated,
             related: stateCopy.related
           })
           this.findRelated()
         }
         
       } else {
-        stateCopy.formattedRelated.splice(index, 1)
+        // stateCopy.formattedRelated.splice(index, 1)
         stateCopy.related.splice(index, 1)
+        const formattedRelated = stateCopy.related.map((place, i) => {
+        return (
+            <li key={i} id={i} className='between-flex-container ent'>
+              <form id={i} onSubmit={this.addEnt}>
+                <div className='nameColumn'>
+                {place.name} 
+                </div>
+                <input type='hidden' name='name' value={place.name}/>
+                <input type='hidden' name='lat' value={place.geometry.location.lat}/>
+                <input type='hidden' name='lng' value={place.geometry.location.lng}/>
+                <input type='hidden' name='date' value={this.state.date}/>
+                <input type='hidden' name='userId' value={this.state.userId}/>
+                <input type='hidden' name='apiId' value={place.id}/>
+                <div className='addCol'>
+                <button  className='button' type='submit'>Add</button>
+                </div>
+
+
+              </form>
+              <div className='deleteCol'>
+              <button className='button' id={i} onClick={this.deleteFoundEnt}>Delete</button>
+              </div>
+
+
+            </li>
+
+
+          )
+        })
         if (stateCopy.formattedRelated.length !== 0) {
           this.setState({
-            formattedRelated: stateCopy.formattedRelated,
+            formattedRelated: formattedRelated,
             related: stateCopy.related
           })
           
         } else {
           this.setState({
-            formattedRelated: stateCopy.formattedRelated,
+            formattedRelated: formattedRelated,
             related: stateCopy.related
           })
           this.findRelated()
@@ -293,20 +362,26 @@ class EntPlanner extends Component {
         console.log(newResponse);
         const formattedRelated = newResponse.map((place, i) => {
         return (
-            <li key={i} id={i}>
-              <form id={i} onSubmit={this.addEnt}>
-                Name: {place.name} 
+            <li key={i} id={i} className='between-flex-container ent'>
+              <form id={i} onSubmit={this.addEnt} className='between-flex-container'>
+                <div className='nameColumn'>
+                {place.name} 
+                </div>
                 <input type='hidden' name='name' value={place.name}/>
                 <input type='hidden' name='lat' value={place.geometry.location.lat}/>
                 <input type='hidden' name='lng' value={place.geometry.location.lng}/>
                 <input type='hidden' name='date' value={this.state.date}/>
                 <input type='hidden' name='userId' value={this.state.userId}/>
                 <input type='hidden' name='apiId' value={place.id}/>
-                <button  type='submit'>Add</button>
+                <div className='addCol'>
+                <button  className='button' type='submit'>Add</button>
+                </div>
 
 
               </form>
-              <button id={i} onClick={this.deleteFoundEnt}>Delete</button>
+              <div className='deleteCol'>
+              <button className='button' id={i} onClick={this.deleteFoundEnt}>Delete</button>
+              </div>
 
 
             </li>
@@ -316,7 +391,8 @@ class EntPlanner extends Component {
         })
         this.setState({
           related: newResponse,
-          formattedRelated: formattedRelated
+          formattedRelated: formattedRelated,
+          recommended: true
 
         })
         
@@ -334,31 +410,59 @@ class EntPlanner extends Component {
     console.log(this.state);
     let display = ''
     if (this.state.formattedRelated.length === 0) {
-      display = 'Loading......'
+      display = (
+        <div className='loading'>
+        <p>......Finding Recommended Options......</p><br/>
+        <img src='/loading.gif'/>
+        </div>
+        )
     } else {
       display = (
           <div>
-          <h1>Entertainment Planner</h1>
-          <p onClick={this.props.homePage}>Back</p>
-          <p>{this.state.currentDate}</p>
-          <form>
-          <input type='date' name='date' value={this.state.date} onChange={this.changeDate}/>
-         </form>
-         <h2>Todays Entertainment</h2>
-          <ul>
-          {this.state.formattedDaysEnt}
-          </ul>
-          <form onSubmit={this.createCustomEnt}>
-            <input type='text' name='customEnt' value={this.state.customEnt} onChange={this.handleChange}/>
-            <button type='submit'>Create Custom</button>
-          </form>
-          <form onSubmit={this.searchEnt}>
-          <input type='text' name='search' value={this.state.search} onChange={this.handleChange}/> 
-          <button type='submit'>Search</button>
-          </form>
-          <ul>
-          {this.state.formattedRelated}
-          </ul>
+          <div className='between-flex-container'>
+              <img className='image-logo-small' src='image (7).png'/>
+              <div className='buttonContainer center-column-flex-container'>
+               <h1 className='header'>Entert<span className='redLetter'>a</span>inment<br/>Pl<span className='redLetter'>a</span>nner</h1> 
+               <button class='button' onClick={this.props.homePage}>Back</button>
+                
+              </div>
+
+          </div>
+          
+         <div className='between-flex-container'>
+              <p className='currentDate'>{this.state.currentDate}</p>
+              <form>
+                <input className='dateChanger' type='date' name='date' value={this.state.date} onChange={this.changeDate}/>
+              </form>
+          </div>
+          <div className='overallEntContainer'>
+            <div className='center-column-flex-container entContainer'>
+             <h2 className='header underlined'>Today</h2>
+              <ul>
+              {this.state.formattedDaysEnt}
+              </ul>
+              <form onSubmit={this.createCustomEnt} className='between-flex-container'>
+                <input type='text' name='customEnt' value={this.state.customEnt} onChange={this.handleChange} placeholder='Create Custom Activity'/>
+                <button className='button' type='submit'>Create Custom</button>
+              </form>
+            </div>
+            <div className='center-column-flex-container entContainer'>
+              {this.state.recommended ? <h2 className='header underlined'>Recommended For You</h2> : <h2 className='header underlined'>Search Results</h2>}
+              <ul>
+              {this.state.formattedRelated}
+              </ul>
+            </div>
+          </div>
+              <form onSubmit={this.searchEnt} className='searchForm'>
+              <input type='text' name='search' value={this.state.search} onChange={this.handleChange} placeholder='Search For Activities'/> 
+              <button class='button' type='submit'>Search</button>
+              </form>
+          <div className='center-column-flex-container'>
+            <div className='mapKey'>
+              <img src='/newblue.png'/>  : Today's Activities<br/>
+              <img src='/newgreen.png'/> : Recommended/Searched Activities<br/>
+            </div>
+          </div>
           <CoolMap related={this.state.related} daysEnt={this.state.daysEnt} position={this.props.position}/>
         </div>
 

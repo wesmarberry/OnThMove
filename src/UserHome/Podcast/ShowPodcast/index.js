@@ -20,7 +20,7 @@ class ShowPodcast extends Component {
 				episodeToShow: ''
 			})
 			await this.setState({
-				episodeToShow: <iframe src={audio} type='audio/mpeg' height='100px' width='200px'/>
+				episodeToShow: <embed src={audio} type='audio/mpeg' height='100px' width='200px'/>
 			})
 			console.log(this.state);
 		}

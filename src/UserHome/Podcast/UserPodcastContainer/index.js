@@ -12,7 +12,7 @@ const UserPodcastContainer = (props) => {
 					<li key={i}>
 						<img id={podcast._id} src={podcast.image} onClick={props.showPodcast}/><br/>
 						Title: {podcast.name}<br/>
-						<button id={podcast._id} onClick={props.deletePodcast}>Delete</button>
+						<button className='button' id={podcast._id} onClick={props.deletePodcast}>Delete</button>
 					</li>
 
 				)
@@ -21,7 +21,7 @@ const UserPodcastContainer = (props) => {
 
 		return (
 				<div>
-					<ul>
+					<ul className='yourPodcasts'>
 					{displayPodcasts}
 					</ul>
 

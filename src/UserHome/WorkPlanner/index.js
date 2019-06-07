@@ -241,7 +241,7 @@ class WorkPlanner extends Component {
               </div>
               <div className='priorityColumn'>
                 <select name="priority" className={task._id} value={task.priority} onChange={this.editTask}>
-                  <option value="default" disabled>Priority</option>
+                  
                   <option value="1">A</option>
                   <option value="2">B</option>
                   <option value="3">C</option>
@@ -253,7 +253,7 @@ class WorkPlanner extends Component {
               </div>
               <div className='timeColumn'>
                 <select name="time" className={task._id} value={task.time} onChange={this.editTask}>
-                <option value="default" disabled>Time</option>
+                
                 <option value="0">N/A</option>
                 <option value="7">7AM</option>
                 <option value="8">8AM</option>
@@ -295,7 +295,7 @@ class WorkPlanner extends Component {
           <div className='between-flex-container'>
               <img className='image-logo-small' src='image (7).png'/>
               <div className='buttonContainer center-column-flex-container'>
-               <h1>Task Planner</h1> 
+               <h1 className='header'>T<span className='redLetter'>a</span>sk Pl<span className='redLetter'>a</span>nner</h1> 
                <button class='button' onClick={this.props.homePage}>Back</button>
                 
               </div>
@@ -332,7 +332,7 @@ class WorkPlanner extends Component {
             </li>
             {this.state.tasks}
            </ul>
-           <form onSubmit={this.createNewTask}>
+           <form className='newTaskForm' onSubmit={this.createNewTask}>
               <select className='select-css'name="priority" onChange={this.handleNewTaskChange} placeholder='Priority' value={this.state.newTask.priority}>
                 <option value="default" disabled selected>Priority</option>
                 <option value="1">A</option>
@@ -356,7 +356,7 @@ class WorkPlanner extends Component {
                 <option value="16">4PM</option>
                 <option value="17">5PM</option>
                </select>
-               <button type='submit'>Create New Task</button>
+               <button className='button' type='submit'>Create New Task</button>
            </form>
           </div>
 

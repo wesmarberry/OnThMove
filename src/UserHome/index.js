@@ -237,19 +237,19 @@ class UserHome extends Component {
             <div className='center-column-flex-container tileRow'>
               <div className='between-flex-container'>
                 <div id='entPlanner' className='tile center-flex' onClick={this.toggleComponent}>
-                  <h7>Entertainment Planner</h7>
+                  <h7 className='header'>Entertainment Planner</h7>
                 </div>
                 <div id='workPlanner' className='tile center-flex' onClick={this.toggleComponent}>
-                  <h7>Task Planner</h7>
+                  <h7 className='header'>Task Planner</h7>
                 </div>
               </div>
 
               <div className='between-flex-container tileRow'>
                 <div id='podcast' className='tile center-flex' onClick={this.toggleComponent}>
-                  <h7>Podcasts</h7>
+                  <h7 className='header'>Podcasts</h7>
                 </div>
                 <div id='news' className='tile center-flex' onClick={this.toggleComponent}>
-                  <h7>News</h7>
+                  <h7 className='header'>News</h7>
                 </div>
               </div>
             </div>
