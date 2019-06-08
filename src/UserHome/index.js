@@ -214,7 +214,7 @@ class UserHome extends Component {
     if (this.state.podcastPlaying === '') {
       console.log('hit set podcast');
       await this.setState({
-        podcastPlaying: <audio id='podcastPlaying' className={id} controls>
+        podcastPlaying: <audio id='podcastPlaying' className={id} autoPlay controls>
                   <source src={id} type="audio/mpeg"/>
                 </audio>
       })
