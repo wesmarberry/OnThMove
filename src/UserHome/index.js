@@ -222,12 +222,12 @@ class UserHome extends Component {
       
       console.log('this is state');
       console.log(this.state);
-      document.getElementById('podcastPlaying').play()
-      document.getElementById('podcastPlaying').muted = true
+      // document.getElementById('podcastPlaying').play()
+      // document.getElementById('podcastPlaying').muted = true
       console.log('this is podcas playing')
       console.log(this.state.podcastPlaying);
     } else {
-      document.getElementById('podcastPlaying').play()
+      // document.getElementById('podcastPlaying').play()
     }
   }
 
@@ -246,10 +246,10 @@ class UserHome extends Component {
       console.log(id);
       if (id != this.state.podcastPlaying.props.className) {
         console.log('hit reset');
-        if (document.getElementById('podcastPlayingShowing') !== null) {
+        // if (document.getElementById('podcastPlayingShowing') !== null) {
 
-          document.getElementById('podcastPlayingShowing').setAttribute('id', 'podcastPlayingHidden');
-        }
+        //   document.getElementById('podcastPlayingShowing').setAttribute('id', 'podcastPlayingHidden');
+        // }
         await this.setState({
           podcastPlaying: ''
         })
@@ -354,8 +354,7 @@ class UserHome extends Component {
     return(
         <div>
           {display}
-          <div id='podcastPlayingHidden'>
-            <p>Currently Playing</p><br/>
+          <div id='podcastPlayingShowing'>
             {this.state.podcastPlaying}
           </div>
 
