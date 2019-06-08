@@ -1,33 +1,51 @@
-import React from 'react';
+import React, { Component } from 'react';
+import ShowPodcast from '../ShowPodcast'
 
 
 
-const UserPodcastContainer = (props) => {
+class UserPodcastContainer extends Component {
+	constructor() {
+    super();
+    this.state = {
+      episodeToShow: '',
+      nextEpisode: '',
+      audio: ''
+    }
+
+  }
+
 	
 
-	
 
-		const displayPodcasts = props.userPodcasts.map((podcast, i) => {
+		render() {
+			const displayPodcasts = this.props.userPodcasts.map((podcast, i) => {
+				return (
+						<li key={i}>
+							<img id={podcast._id} src={podcast.image} onClick={this.props.showPodcast}/><br/>
+							{podcast.name}<br/>
+							<button className='button userDelete' id={podcast._id} onClick={this.props.deletePodcast}>Delete</button>
+						</li>
+
+					)
+			})
+
 			return (
-					<li key={i}>
-						<img id={podcast._id} src={podcast.image} onClick={props.showPodcast}/><br/>
-						Title: {podcast.name}<br/>
-						<button className='button' id={podcast._id} onClick={props.deletePodcast}>Delete</button>
-					</li>
+
+
+					<div className='center-column-flex-container'>
+	            		<div className='yourPodcastOverallContainer'>
+							<div>
+								<ul className='yourPodcasts'>
+								{displayPodcasts}
+								</ul>
+
+							</div>
+	              
+	            		</div>
+          			</div>
 
 				)
-		})
-
-
-		return (
-				<div>
-					<ul className='yourPodcasts'>
-					{displayPodcasts}
-					</ul>
-
-				</div>
-
-			)
+		}
 			
 	
 

@@ -117,6 +117,7 @@ class Register extends Component {
               <button className='button' onClick={this.props.resetToLogin}>Return To Login</button>
             </div>
           </form>
+          <p className='redMessage'>{this.state.message}</p><br/>
           {message}
         </div>
       )

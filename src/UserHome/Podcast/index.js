@@ -119,6 +119,7 @@ class Podcast extends Component {
         podcastToShow: parsedResponse.data,
         showPodcast: true
       })
+      this.props.showPlaying()
     } catch (err) {
 
     }
@@ -139,10 +140,14 @@ class Podcast extends Component {
       console.log(parsedResponse);
       const displaySearch = parsedResponse.data.body.results.map((podcast, i) => {
       return (
-          <li key={i}>
+          <li key={i} className='liContainer'>
+            <div className='center-column-flex-container podcastCol'>
             <img src={podcast.image}/><br/>
-            Title: {podcast.title_original}<br/>
-            <button id={podcast.id} onClick={this.addPodcast}>Add</button>
+            {podcast.title}<br/>
+            </div>
+            <div className='buttonCol'>
+            <button className='button addRec' id={podcast.id} onClick={this.addPodcast}>Add</button>
+            </div>
           </li>
 
         )
@@ -178,11 +183,15 @@ class Podcast extends Component {
         } else {
           displaySearch = parsedResponse.data.body.results.map((podcast, i) => {
               return (
-                <li key={i}>
-                  <img src={podcast.image}/><br/>
-                  Title: {podcast.title_original}<br/>
-                  <button id={podcast.id} onClick={this.addPodcast}>Add</button>
-                </li>
+                <li key={i} className='liContainer'>
+            <div className='center-column-flex-container podcastCol'>
+            <img src={podcast.image}/><br/>
+            {podcast.title}<br/>
+            </div>
+            <div className='buttonCol'>
+            <button className='button addRec' id={podcast.id} onClick={this.addPodcast}>Add</button>
+            </div>
+          </li>
 
               )
           })
@@ -191,11 +200,15 @@ class Podcast extends Component {
       } else {
         displaySearch = parsedResponse.data.body.recommendations.map((podcast, i) => {
         return (
-            <li key={i}>
-              <img src={podcast.image}/><br/>
-              Title: {podcast.title}<br/>
-              <button id={podcast.id} onClick={this.addPodcast}>Add</button>
-            </li>
+            <li key={i} className='liContainer'>
+            <div className='center-column-flex-container podcastCol'>
+            <img src={podcast.image}/><br/>
+            {podcast.title}<br/>
+            </div>
+            <div className='buttonCol'>
+            <button className='button addRec' id={podcast.id} onClick={this.addPodcast}>Add</button>
+            </div>
+          </li>
 
           )
       })
@@ -246,40 +259,45 @@ class Podcast extends Component {
   render() {
     
     console.log('================');
-    console.log(this.props.position);
+    console.log(this.props);
 
 
     let display = ''
     let searchDisplay = ''
     if (this.state.showPodcast) {
-      display = <ShowPodcast podcastToShow={this.state.podcastToShow} returnToPodcastHome={this.returnToPodcastHome}/>
+      display = <ShowPodcast podcastToShow={this.state.podcastToShow} returnToPodcastHome={this.returnToPodcastHome} setPodcast={this.props.setPodcast} pausePodcast={this.props.pausePodcast} unmutePodcast={this.props.unmutePodcast} resetPodcastState={this.props.resetPodcastState} showPlaying={this.props.showPlaying}/>
     } else if (this.state.searchedPodcasts.length === 0) {
       display = (
         <div>
           <div className='between-flex-container'>
               <img className='image-logo-small' src='image (7).png'/>
               <div className='buttonContainer center-column-flex-container'>
-               <h1 className='header'>T<span className='redLetter'>a</span>sk Pl<span className='redLetter'>a</span>nner</h1> 
+               <h1 className='header'>Podc<span className='redLetter'>a</span>sts</h1> 
                <button class='button' onClick={this.props.homePage}>Back</button>
                 
               </div>
 
           </div>
-          <div className='yourPodcastOverallContainer'>
-          <h2 className='header'>Your Podcasts</h2>
-          <UserPodcastContainer userPodcasts={this.state.userPodcasts} showPodcast={this.showPodcast} deletePodcast={this.deletePodcast}/>
+          <div className='center-column-flex-container'>
+            <div className='yourPodcastOverallContainer'>
+              <h2 className='header'>Your Podcasts</h2>
+              <UserPodcastContainer userPodcasts={this.state.userPodcasts} showPodcast={this.showPodcast} deletePodcast={this.deletePodcast}/>
+            </div>
           </div>
-          <div className='popularPodcastsContainer'>
-            <h2>Popular Podcasts</h2>
-            <PopularContainer popular={this.state.popular} addPodcast={this.addPodcast}/>
-          </div>
-          <h2>Search</h2>
-          <form onSubmit={this.searchPodcasts}>
-            <input type='text' name='search' value={this.state.search} onChange={this.handleChange}/>
-            <button type='submit'>Search</button>
+          <form onSubmit={this.searchPodcasts} className='searchForm'>
+            <input type='text' name='search' value={this.state.search} onChange={this.handleChange} placeholder='Search For Podcasts'/>
+            <button className='button' type='submit'>Search</button>
           </form><br/>
-          <h2>Recommended For You</h2>
-          {this.state.recommended}
+          <div className='between-flex-container'>
+            <div className='popularPodcastsContainer'>
+              <h2 className='header'>Popular Podcasts</h2>
+              <PopularContainer popular={this.state.popular} addPodcast={this.addPodcast}/>
+            </div>
+            <div className='popularPodcastsContainer'>
+              <h2 className='header'>Recommended For You</h2>
+              {this.state.recommended}
+            </div>
+          </div>
 
 
 
@@ -292,26 +310,30 @@ class Podcast extends Component {
           <div className='between-flex-container'>
               <img className='image-logo-small' src='image (7).png'/>
               <div className='buttonContainer center-column-flex-container'>
-               <h1 className='header'>T<span className='redLetter'>a</span>sk Pl<span className='redLetter'>a</span>nner</h1> 
+               <h1 className='header'>Podc<span className='redLetter'>a</span>sts</h1> 
                <button class='button' onClick={this.props.homePage}>Back</button>
                 
               </div>
 
           </div>
           <div className='yourPodcastOverallContainer'>
-            <h2 className='header'>Your Podcasts</h2>
-            <UserPodcastContainer userPodcasts={this.state.userPodcasts} showPodcast={this.showPodcast} deletePodcast={this.deletePodcast}/>
+          <h2 className='header'>Your Podcasts</h2>
+          <UserPodcastContainer userPodcasts={this.state.userPodcasts} showPodcast={this.showPodcast} deletePodcast={this.deletePodcast}/>
           </div>
-          <div className='popularPodcastsContainer'>
-            <h2>Popular Podcasts</h2>
-            <PopularContainer popular={this.state.popular} addPodcast={this.addPodcast}/>
+          <form onSubmit={this.searchPodcasts} className='searchForm'>
+            <input type='text' name='search' value={this.state.search} onChange={this.handleChange} placeholder='Search For Podcasts'/>
+            <button className='button' type='submit'>Search</button>
+          </form><br/>
+          <div className='between-flex-container'>
+            <div className='popularPodcastsContainer'>
+              <h2 className='header'>Popular Podcasts</h2>
+              <PopularContainer popular={this.state.popular} addPodcast={this.addPodcast}/>
+            </div>
+            <div className='popularPodcastsContainer'>
+              <h2 className='header'>Search Results</h2>
+              {this.state.searchedPodcasts}
+            </div>
           </div>
-          <h2>Search</h2>
-          <form onSubmit={this.searchPodcasts}>
-            <input type='text' name='search' value={this.state.search} onChange={this.handleChange}/>
-            <button type='submit'>Search</button>
-          </form>
-          {this.state.searchedPodcasts}
 
 
 

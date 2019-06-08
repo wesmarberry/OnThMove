@@ -25,7 +25,8 @@ class UserHome extends Component {
       news: false,
       activityToShow: '',
       session: '',
-      currentDate: ''
+      currentDate: '',
+      podcastPlaying: ''
     }
 
   }
@@ -183,9 +184,16 @@ class UserHome extends Component {
   
   toggleComponent = (e) => {
     console.log(e.currentTarget);
-    this.setState({
-      [e.currentTarget.id]: true
-    })
+    if (e.currentTarget.id === 'podcast') {
+      this.setState({
+        [e.currentTarget.id]: true
+      })
+      // this.showPlaying() 
+    } else {
+      this.setState({
+        [e.currentTarget.id]: true
+      })
+    }
   }
   
   homePage = () => {
@@ -199,11 +207,78 @@ class UserHome extends Component {
     console.log(this.state);
   }
 
+
+  setPodcast = async (id) => {
+    
+
+    if (this.state.podcastPlaying === '') {
+      console.log('hit set podcast');
+      await this.setState({
+        podcastPlaying: <audio id='podcastPlaying' className={id} controls>
+                  <source src={id} type="audio/mpeg"/>
+                </audio>
+      })
+
+      
+      console.log('this is state');
+      console.log(this.state);
+      document.getElementById('podcastPlaying').play()
+      document.getElementById('podcastPlaying').muted = true
+      console.log('this is podcas playing')
+      console.log(this.state.podcastPlaying);
+    } else {
+      document.getElementById('podcastPlaying').play()
+    }
+  }
+
+  resetPodcastState = async (e) => {
+    
+    console.log('this is e.currentTarget');
+    console.log(e.currentTarget);
+    const id = e.currentTarget.id
+    console.log(id);
+    if (this.state.podcastPlaying === '') {
+      console.log('hit first if');
+      this.setPodcast(id)
+    } else {
+
+      console.log(this.state.podcastPlaying.props.className);
+      console.log(id);
+      if (id != this.state.podcastPlaying.props.className) {
+        console.log('hit reset');
+        document.getElementById('podcastPlayingShowing').setAttribute('id', 'podcastPlayingHidden');
+        await this.setState({
+          podcastPlaying: ''
+        })
+        console.log(this.state);
+
+        await this.setPodcast(id)
+      } else {
+        console.log('hit else');
+        this.setPodcast(id)
+      }
+      
+    }
+  }
+
+  unmutePodcast = () => {
+    document.getElementById('podcastPlaying').muted = false
+  }
+
+  pausePodcast = () => {
+    document.getElementById('podcastPlaying').pause()
+  }
+
+  showPlaying = () => {
+    if (document.getElementById('podcastPlaying') !== null) {
+
+      document.getElementById('podcastPlayingHidden').setAttribute('id', 'podcastPlayingShowing');
+
+    }
+  }
+
   render() {
-    console.log('===================');
-    console.log(this.props);
-    console.log('===================');
-    console.log(this.state);
+    
     let display = ''
     if (this.state.usernameDisplay === '') {// conditional statement to wait until ComponentDidMount is finished running
                                             // in order to render the page
@@ -214,7 +289,7 @@ class UserHome extends Component {
       } else if (this.state.entPlanner) {
         display = <EntPlanner homePage={this.homePage} getCurrentDate={this.getCurrentDate} getCurrentDateNiceVersion={this.getCurrentDateNiceVersion} userId={this.state.userId} position={this.props.position}/>
       } else if (this.state.podcast) {
-        display = <Podcast homePage={this.homePage} userId={this.state.userId}/>
+        display = <Podcast homePage={this.homePage} userId={this.state.userId} setPodcast={this.setPodcast} pausePodcast={this.pausePodcast} unmutePodcast={this.unmutePodcast} resetPodcastState={this.resetPodcastState} showPlaying={this.showPlaying}/>
       } else if (this.state.news) {
         display = <News homePage={this.homePage} userId={this.state.userId}/>
       } else {//displays user home page on default
@@ -267,6 +342,10 @@ class UserHome extends Component {
     return(
         <div>
           {display}
+          <div id='podcastPlayingHidden'>
+            <p>Currently Playing</p><br/>
+            {this.state.podcastPlaying}
+          </div>
 
 
 

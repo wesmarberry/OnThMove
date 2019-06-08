@@ -31,12 +31,15 @@ class EntPlanner extends Component {
     this.showDayEnt()
   }
 
-  changeDate = (e) => {
+  changeDate = async (e) => {
     console.log(e.currentTarget);
-    this.setState({
-      [e.currentTarget.name]: e.currentTarget.value
+    await this.setState({
+      [e.currentTarget.name]: e.currentTarget.value,
+      formattedRelated: []
     })
     this.showDayEnt()
+    this.findRelated()
+
   }
 
   shuffle = (array) => {

@@ -46,7 +46,7 @@ showUserArticles = async () => {
             
               <img src={article.image} id={article._id} onClick={this.showArticle}/><br/>
               {article.title}<br/>
-              <button id={article._id} onClick={this.deleteArticle}>Delete</button>
+              <button className='button' id={article._id} onClick={this.deleteArticle}>Delete</button>
 
           </li>
           )
@@ -96,9 +96,10 @@ showUserArticles = async () => {
       console.log(parsedResponse);
       const formattedTopHeadlines = parsedResponse.data.map((article, i) => {
         return (
-            <li key={i}>
+            <li key={i} >
               <form id={i} onSubmit={this.addArticle}>
-                <img src={article.urlToImage}/><br/>
+                <div className='center-column-flex-container podcastCol'>
+                <img className='newsImg' src={article.urlToImage}/><br/>
                 {article.title}
                 <input type='hidden' name='content' value={article.content}/>
                 <input type='hidden' name='description' value={article.description}/>
@@ -107,7 +108,10 @@ showUserArticles = async () => {
                 <input type='hidden' name='image' value={article.urlToImage}/>
                 <input type='hidden' name='title' value={article.title}/>
                 <input type='hidden' name='url' value={article.url}/>
-                <button type='submit'>Add</button>
+                <div className='buttonCol'>
+                  <button className='button newsBtn' type='submit'>Add</button>
+                </div>
+                </div>
               </form>
               
             </li>
@@ -136,9 +140,10 @@ showUserArticles = async () => {
       console.log(parsedResponse);
       const formattedRecommended = parsedResponse.data.map((article, i) => {
         return (
-            <li key={i}>
+            <li key={i} >
               <form id={i} onSubmit={this.addArticle}>
-                <img src={article.urlToImage}/><br/>
+                <div className='center-column-flex-container podcastCol'>
+                <img className='newsImg' src={article.urlToImage}/><br/>
                 {article.title}
                 <input type='hidden' name='content' value={article.content}/>
                 <input type='hidden' name='description' value={article.description}/>
@@ -147,7 +152,10 @@ showUserArticles = async () => {
                 <input type='hidden' name='image' value={article.urlToImage}/>
                 <input type='hidden' name='title' value={article.title}/>
                 <input type='hidden' name='url' value={article.url}/>
-                <button type='submit'>Add</button>
+                <div className='buttonCol'>
+                  <button className='button newsBtn' type='submit'>Add</button>
+                </div>
+                </div>
               </form>
               
             </li>
@@ -180,9 +188,10 @@ showUserArticles = async () => {
       console.log(parsedResponse);
       const formattedRecommended = parsedResponse.data.map((article, i) => {
         return (
-            <li key={i}>
+            <li key={i} >
               <form id={i} onSubmit={this.addArticle}>
-                <img src={article.urlToImage}/><br/>
+                <div className='center-column-flex-container podcastCol'>
+                <img className='newsImg' src={article.urlToImage}/><br/>
                 {article.title}
                 <input type='hidden' name='content' value={article.content}/>
                 <input type='hidden' name='description' value={article.description}/>
@@ -191,7 +200,10 @@ showUserArticles = async () => {
                 <input type='hidden' name='image' value={article.urlToImage}/>
                 <input type='hidden' name='title' value={article.title}/>
                 <input type='hidden' name='url' value={article.url}/>
-                <button type='submit'>Add</button>
+                <div className='buttonCol'>
+                  <button className='button newsBtn' type='submit'>Add</button>
+                </div>
+                </div>
               </form>
               
             </li>
@@ -291,24 +303,47 @@ showUserArticles = async () => {
     if (this.state.showNews === false) {
       display = (
         <div>
-          <h1>News</h1>
-          <p onClick={this.props.homePage}>Back</p>
-          <h2>
-            Your Articles
-          </h2>
-            {this.state.formattedUserArticles}
-          <form onSubmit={this.searchNews}>
-            <input type='text' name='search' value={this.state.search} onChange={this.handleChange}/>
-            <button type='submit'>Search</button>
-          </form>
-          <h2>
-            Recommended For You
-          </h2>
-            {this.state.formattedRecommended}
-          <h2>
-            Top Headlines
-          </h2>
-            {this.state.formattedTopHeadlines}
+          <div className='between-flex-container'>
+              <img className='image-logo-small' src='image (7).png'/>
+              <div className='buttonContainer center-column-flex-container'>
+               <h1 className='header'>N<span className='redLetter'>e</span>ws</h1> 
+               <button class='button' onClick={this.props.homePage}>Back</button>
+                
+              </div>
+
+          </div>
+          <div className='center-column-flex-container'>
+            <div className='yourArticleOverallContainer'>
+              <div>
+              <h2 className='header'>Your Articles</h2>
+              <ul className='between-flex-container articleUl'>
+                {this.state.formattedUserArticles}
+              </ul>
+              </div>
+            </div>
+          </div>
+          
+          <form onSubmit={this.searchNews} className='searchForm'>
+            <input type='text' name='search' value={this.state.search} onChange={this.handleChange} placeholder='Search For Podcasts'/>
+            <button className='button' type='submit'>Search</button>
+          </form><br/>
+          <div className='between-flex-container'>
+            <div className=' popularArticlesContainer'>
+            <h2 className='header'>Recommended For You</h2>
+              <ul>
+                {this.state.formattedRecommended}
+              </ul>
+            </div>
+            <div className=' popularArticlesContainer'>
+            <h2 className='header'>Top Headlines</h2>
+              <ul>
+                {this.state.formattedTopHeadlines}
+                
+              </ul>
+            </div>
+          </div>
+
+
         </div>
 
 
