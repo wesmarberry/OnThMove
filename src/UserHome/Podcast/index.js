@@ -247,6 +247,7 @@ class Podcast extends Component {
       showPodcast: false,
       searchedPodcasts: []
     })
+    this.props.hidePlaying()
   }
 
   handleChange = (e) => {

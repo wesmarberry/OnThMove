@@ -246,7 +246,10 @@ class UserHome extends Component {
       console.log(id);
       if (id != this.state.podcastPlaying.props.className) {
         console.log('hit reset');
-        document.getElementById('podcastPlayingShowing').setAttribute('id', 'podcastPlayingHidden');
+        if (document.getElementById('podcastPlayingShowing') !== null) {
+
+          document.getElementById('podcastPlayingShowing').setAttribute('id', 'podcastPlayingHidden');
+        }
         await this.setState({
           podcastPlaying: ''
         })
@@ -262,7 +265,10 @@ class UserHome extends Component {
   }
 
   unmutePodcast = () => {
-    document.getElementById('podcastPlaying').muted = false
+    if (document.getElementById('podcastPlaying') !== null) {
+      document.getElementById('podcastPlaying').muted = false
+      
+    }
   }
 
   pausePodcast = () => {
@@ -270,10 +276,16 @@ class UserHome extends Component {
   }
 
   showPlaying = () => {
-    if (document.getElementById('podcastPlaying') !== null) {
+    if (document.getElementById('podcastPlayingHidden') !== null && this.state.podcastPlaying !== '') {
 
       document.getElementById('podcastPlayingHidden').setAttribute('id', 'podcastPlayingShowing');
 
+    }
+  }
+
+  hidePlaying = () => {
+    if (document.getElementById('podcastPlayingShowing') !== null) {
+      document.getElementById('podcastPlayingShowing').setAttribute('id', 'podcastPlayingHidden');
     }
   }
 
@@ -289,7 +301,7 @@ class UserHome extends Component {
       } else if (this.state.entPlanner) {
         display = <EntPlanner homePage={this.homePage} getCurrentDate={this.getCurrentDate} getCurrentDateNiceVersion={this.getCurrentDateNiceVersion} userId={this.state.userId} position={this.props.position}/>
       } else if (this.state.podcast) {
-        display = <Podcast homePage={this.homePage} userId={this.state.userId} setPodcast={this.setPodcast} pausePodcast={this.pausePodcast} unmutePodcast={this.unmutePodcast} resetPodcastState={this.resetPodcastState} showPlaying={this.showPlaying}/>
+        display = <Podcast homePage={this.homePage} userId={this.state.userId} setPodcast={this.setPodcast} pausePodcast={this.pausePodcast} unmutePodcast={this.unmutePodcast} resetPodcastState={this.resetPodcastState} showPlaying={this.showPlaying} hidePlaying={this.hidePlaying}/>
       } else if (this.state.news) {
         display = <News homePage={this.homePage} userId={this.state.userId}/>
       } else {//displays user home page on default
