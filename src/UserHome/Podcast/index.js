@@ -317,7 +317,7 @@ class Podcast extends Component {
               </div>
 
           </div>
-          <div className='yourPodcastOverallContainer'>
+          <div>
           <h2 className='header'>Your Podcasts</h2>
           <UserPodcastContainer userPodcasts={this.state.userPodcasts} showPodcast={this.showPodcast} deletePodcast={this.deletePodcast}/>
           </div>

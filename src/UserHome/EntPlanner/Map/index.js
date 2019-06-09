@@ -53,6 +53,7 @@ class CoolMap extends Component {
           key={i} 
           name={activity.name} 
           position={{lat: activity.lat, lng: activity.lng}}
+          formatted_address={activity.formatted_address}
           icon={{
             url: '/newblue.png',
             scaledSize: new this.props.google.maps.Size(40,70)

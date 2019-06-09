@@ -32,6 +32,7 @@
   word-wrap: break-word;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
+  box-shadow: 5px 5px black;
 }
 
 .redLetter {
@@ -62,6 +63,8 @@
   height: 150px;
 }
 
+
+
 .yourPodcastOverallContainer {
   background-color: #4f4f2f;
   display: flex;
@@ -74,6 +77,7 @@
   color: white;
   margin-bottom: 20px;
   margin-top: 20px;
+  /*box-shadow: 5px 5px black;*/
 }
 
 .yourArticleOverallContainer div ul li img {
@@ -100,6 +104,7 @@
   color: white;
   margin-bottom: 20px;
   margin-top: 20px;
+  box-shadow: 5px 5px black;
 }
 
 .articleUl {
@@ -126,10 +131,13 @@
   color: white;
   height: 400px;
   width: 40%;
+  box-shadow: 5px 5px black;
 }
 
 .newsImg {
   height: 75px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .newsBtn {
@@ -148,6 +156,32 @@
   color: white;
   height: 400px;
   width: 40%;
+  box-shadow: 5px 5px black;
+}
+
+.newsImage {
+  /*height: 300px;*/
+  width: 80%;
+  border-radius: 20px;
+  box-shadow: 5px 5px black;
+  margin-top: 20px;
+}
+
+.newsShow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #4f2f2f;
+  width: 90%;
+  border-radius: 10px;
+  color: white;
+  box-shadow: 5px 5px black;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.readNow {
+  margin-bottom: 20px
 }
 
 .recommendedPodcastContainer {
@@ -174,6 +208,12 @@
 .popularPodcastsContainer li img {
   height: 100px;
 
+}
+
+
+
+.podcastImg {
+  margin-left: 10px;
 }
 
 .popularPodcastsContainer li {
@@ -215,7 +255,7 @@
 }
 
 .ent {
-  margin-left: -40px;
+  margin-left: -30px;
   margin-bottom: 10px;
 }
 
@@ -224,6 +264,15 @@
 }
 .deleteCol {
   width: 20%;
+  margin-left: 10px;
+}
+
+.entContainer ul {
+  width: 100%;
+}
+
+.mapDiv {
+  margin-left: -20px;
 }
 
 .header {
@@ -252,6 +301,7 @@ body {
   padding-top: 20px;
   padding-bottom: 20px;
   border-radius: 20px;
+  box-shadow: 5px 5px black;
 }
 
 .currentDate {
@@ -272,6 +322,7 @@ body {
   justify-content: center;
   align-items: center;
   border: 3px solid black;
+  box-shadow: 5px 5px black;
 }
 
 .tile:hover {
@@ -370,6 +421,7 @@ body {
  .listHeader div div {
   font-size: 12px;
   text-decoration: underline;
+  font-weight: bold;
  }
 
 
@@ -400,14 +452,17 @@ ul {
   display: flex;
   justify-content: center;
   width: 10%;
+  margin-left: 3px;
 }
 
 #podcastPlayingHidden {
   visibility: hidden;
+  margin-top: 20px;
 }
 
 #podcastPlayingShowing {
   visibility: visible;
+  margin-top: 20px;
 }
 
 .descriptionColumn {
@@ -448,11 +503,21 @@ ul {
   color: red;
 }
 
+.clickableImg {
+  opacity: 0.7;
+}
+
+.clickableImg:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
 .overallEntContainer {
   display: flex;
   justify-content: space-around;
   align-items: center;
   width: 100%;
+  /*box-shadow: 5px 5px black;*/
 }
 
 .between-flex-container {
@@ -499,15 +564,38 @@ ul {
 }
 
 .podcastDescription {
- height: 200px;
+ /*height: 200px;*/
  background-color: #4f4f2f;
  color: white;
- width: 150px;
+ width: 50%;
  border-radius: 20px;
  overflow: scroll;
  -webkit-overflow-scrolling: touch;
  padding: 10px 10px 10px 10px;
+ max-height: 200px;
+ overflow: scroll;
+ -webkit-overflow-scrolling: touch;
+ margin-left: 10px;
+ margin-right: 10px;
 }
+
+.epTrigger {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.epTrigger:hover {
+  cursor: pointer;
+/*  color: red;
+  text-decoration: underline;*/
+}
+
+.buttonContainer button {
+  margin-bottom: 5px;
+}
+
+
 
 @media only screen and (max-width: 660px) {
   .overallEntContainer {
@@ -532,6 +620,28 @@ ul {
   .liContainer div button {
     margin-top: 5px;
     margin-left: -13px;
+  }
+}
+
+@media only screen and (min-width: 660px) {
+  .listHeader div div {
+    font-size: 20px;
+  }
+}
+
+@media only screen and (min-width: 730px) {
+  .bodyDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .userHomeOverallDiv {
+    width: 730px;
+
+  }
+
+  .newsImage {
+    width: 584px;
   }
 }
 

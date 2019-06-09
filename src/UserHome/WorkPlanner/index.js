@@ -303,7 +303,7 @@ class WorkPlanner extends Component {
           </div>
 
           <div className='between-flex-container'>
-              <p className='currentDate'>{this.state.currentDate}</p>
+              <p className='currentDate'>Today is {this.state.currentDate}</p>
               <form>
                 <input className='dateChanger' type='date' name='date' value={this.state.date} onChange={this.changeDate}/>
               </form>

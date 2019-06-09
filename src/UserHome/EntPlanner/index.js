@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CoolMap from './Map'
+import Collapsible from 'react-collapsible';
 
 
 class EntPlanner extends Component {
@@ -105,7 +106,9 @@ class EntPlanner extends Component {
         return (
           <li key={ent._id} id={ent._id} className='between-flex-container ent'>
               <div className='addedNameColumn'>
-                {ent.name} 
+                <Collapsible trigger={ent.name} className='entCollapse' openedClassName='entCollapse'>
+                  {ent.formatted_address}
+                </Collapsible>
               </div>
               <div className='deleteCol'>
               <button className='button' id={ent._id} onClick={this.deleteEnt}>Delete</button>
@@ -137,6 +140,7 @@ class EntPlanner extends Component {
       entDbEntry.date = e.currentTarget.date.value
       entDbEntry.userId = e.currentTarget.userId.value
       entDbEntry.apiId = e.currentTarget.apiId.value
+      entDbEntry.formatted_address = e.currentTarget.formatted_address.value
       console.log(entDbEntry);
       const index = e.currentTarget.id
       console.log(index);
@@ -180,7 +184,9 @@ class EntPlanner extends Component {
             <li key={i} id={i} className='between-flex-container ent'>
               <form id={i} onSubmit={this.addEnt} className='between-flex-container'>
                 <div className='nameColumn'>
-                {place.name} 
+                <Collapsible trigger={place.name} className='entCollapse' openedClassName='entCollapse'>
+                  {place.formatted_address}
+                </Collapsible>
                 </div>
                 <input type='hidden' name='name' value={place.name}/>
                 <input type='hidden' name='lat' value={place.geometry.location.lat}/>
@@ -188,6 +194,7 @@ class EntPlanner extends Component {
                 <input type='hidden' name='date' value={this.state.date}/>
                 <input type='hidden' name='userId' value={this.state.userId}/>
                 <input type='hidden' name='apiId' value={place.id}/>
+                <input type='hidden' name='formatted_address' value={place.formatted_address}/>
                 <div className='addCol'>
                 <button  className='button' type='submit'>Add</button>
                 </div>
@@ -263,7 +270,9 @@ class EntPlanner extends Component {
             <li key={i} id={i} className='between-flex-container ent'>
               <form id={i} onSubmit={this.addEnt} className='between-flex-container'>
                 <div className='nameColumn'>
-                {place.name} 
+                <Collapsible trigger={place.name} className='entCollapse' openedClassName='entCollapse'>
+                  {place.formatted_address}
+                </Collapsible>
                 </div>
                 <input type='hidden' name='name' value={place.name}/>
                 <input type='hidden' name='lat' value={place.geometry.location.lat}/>
@@ -271,6 +280,7 @@ class EntPlanner extends Component {
                 <input type='hidden' name='date' value={this.state.date}/>
                 <input type='hidden' name='userId' value={this.state.userId}/>
                 <input type='hidden' name='apiId' value={place.id}/>
+                <input type='hidden' name='formatted_address' value={place.formatted_address}/>
                 <div className='addCol'>
                 <button  className='button' type='submit'>Add</button>
                 </div>
@@ -287,13 +297,14 @@ class EntPlanner extends Component {
 
           )
         })
-        if (stateCopy.formattedRelated.length !== 0) {
+        if (stateCopy.related.length !== 0) {
           this.setState({
             formattedRelated: formattedRelated,
             related: stateCopy.related
           })
           
         } else {
+          console.log('hitting related 0');
           this.setState({
             formattedRelated: formattedRelated,
             related: stateCopy.related
@@ -309,7 +320,9 @@ class EntPlanner extends Component {
             <li key={i} id={i} className='between-flex-container ent'>
               <form id={i} onSubmit={this.addEnt} className='between-flex-container'>
                 <div className='nameColumn'>
-                {place.name} 
+                <Collapsible trigger={place.name} className='entCollapse' openedClassName='entCollapse'>
+                  {place.formatted_address}
+                </Collapsible>
                 </div>
                 <input type='hidden' name='name' value={place.name}/>
                 <input type='hidden' name='lat' value={place.geometry.location.lat}/>
@@ -317,6 +330,7 @@ class EntPlanner extends Component {
                 <input type='hidden' name='date' value={this.state.date}/>
                 <input type='hidden' name='userId' value={this.state.userId}/>
                 <input type='hidden' name='apiId' value={place.id}/>
+                <input type='hidden' name='formatted_address' value={place.formatted_address}/>
                 <div className='addCol'>
                 <button  className='button' type='submit'>Add</button>
                 </div>
@@ -333,13 +347,14 @@ class EntPlanner extends Component {
 
           )
         })
-        if (stateCopy.formattedRelated.length !== 0) {
+        if (stateCopy.related.length !== 0) {
           this.setState({
             formattedRelated: formattedRelated,
             related: stateCopy.related
           })
           
         } else {
+          console.log('hitting related 0');
           this.setState({
             formattedRelated: formattedRelated,
             related: stateCopy.related
@@ -372,7 +387,9 @@ class EntPlanner extends Component {
             <li key={i} id={i} className='between-flex-container ent'>
               <form id={i} onSubmit={this.addEnt} className='between-flex-container'>
                 <div className='nameColumn'>
-                {place.name} 
+                <Collapsible trigger={place.name} className='entCollapse' openedClassName='entCollapse'>
+                  {place.formatted_address}
+                </Collapsible>
                 </div>
                 <input type='hidden' name='name' value={place.name}/>
                 <input type='hidden' name='lat' value={place.geometry.location.lat}/>
@@ -380,6 +397,7 @@ class EntPlanner extends Component {
                 <input type='hidden' name='date' value={this.state.date}/>
                 <input type='hidden' name='userId' value={this.state.userId}/>
                 <input type='hidden' name='apiId' value={place.id}/>
+                <input type='hidden' name='formatted_address' value={place.formatted_address}/>
                 <div className='addCol'>
                 <button  className='button' type='submit'>Add</button>
                 </div>
@@ -437,7 +455,7 @@ class EntPlanner extends Component {
           </div>
           
          <div className='between-flex-container'>
-              <p className='currentDate'>{this.state.currentDate}</p>
+              <p className='currentDate'>Today is {this.state.currentDate}</p>
               <form>
                 <input className='dateChanger' type='date' name='date' value={this.state.date} onChange={this.changeDate}/>
               </form>

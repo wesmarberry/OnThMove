@@ -52,7 +52,7 @@ class ShowPodcast extends Component {
 						<Collapsible trigger={ep}>
 							<div className='between-flex-container'>
 							<p>{episode.title}</p><br/>
-							<p onClick={this.props.resetPodcastState} id={episode.audio}>Play</p>
+							<button onClick={this.props.resetPodcastState} id={episode.audio} className='button'>Play</button>
 							
 							</div>
         
@@ -63,14 +63,14 @@ class ShowPodcast extends Component {
 			return (
 					<div className='showingPodcast'>
 						<div className='between-flex-container headerPodcast'>
-						<img src={this.props.podcastToShow.image}/><br/>
+						<img className='podcastImg' src={this.props.podcastToShow.image}/><br/>
 						<p className='podcastDescription'>{this.props.podcastToShow.description}</p><br/>
 						</div>
 						<button className='button' onClick={() => {
 							      this.props.returnToPodcastHome();
 							      this.props.unmutePodcast();
 							  	}}>Back</button>
-  						<Collapsible trigger='Episodes'>
+  						<Collapsible trigger='Show Episodes' className='epTrigger' openedClassName='epTrigger' triggerWhenOpen='Hide Episodes'>
 							{episodes}
 							
       					</Collapsible>

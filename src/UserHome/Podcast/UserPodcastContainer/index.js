@@ -21,7 +21,7 @@ class UserPodcastContainer extends Component {
 			const displayPodcasts = this.props.userPodcasts.map((podcast, i) => {
 				return (
 						<li key={i}>
-							<img id={podcast._id} src={podcast.image} onClick={this.props.showPodcast}/><br/>
+							<img className='clickableImg' id={podcast._id} src={podcast.image} onClick={this.props.showPodcast}/><br/>
 							{podcast.name}<br/>
 							<button className='button userDelete' id={podcast._id} onClick={this.props.deletePodcast}>Delete</button>
 						</li>

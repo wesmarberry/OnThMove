@@ -226,6 +226,7 @@ class UserHome extends Component {
       // document.getElementById('podcastPlaying').muted = true
       console.log('this is podcas playing')
       console.log(this.state.podcastPlaying);
+      this.showPlaying()
     } else {
       // document.getElementById('podcastPlaying').play()
     }
@@ -306,7 +307,8 @@ class UserHome extends Component {
         display = <News homePage={this.homePage} userId={this.state.userId}/>
       } else {//displays user home page on default
         display = (
-          <div>
+          <div className='bodyDiv'>
+          <div className='userHomeOverallDiv'>
             <br/>
             <div className='between-flex-container'>
               <img className='image-logo-small' src='image (7).png'/>
@@ -342,6 +344,7 @@ class UserHome extends Component {
             </div>
            
             
+          </div>
           </div>
           )
       }

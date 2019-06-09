@@ -14,7 +14,8 @@ class News extends Component {
       formattedUserArticles: [],
       search: '',
       showNews: false,
-      articleToShow: ''
+      articleToShow: '',
+      recommendedShowing: true
     }
 
   }
@@ -44,7 +45,7 @@ showUserArticles = async () => {
         return (
           <li key={article._id} >
             
-              <img src={article.image} id={article._id} onClick={this.showArticle}/><br/>
+              <img className='clickableImg' src={article.image} id={article._id} onClick={this.showArticle}/><br/>
               {article.title}<br/>
               <button className='button' id={article._id} onClick={this.deleteArticle}>Delete</button>
 
@@ -212,7 +213,8 @@ showUserArticles = async () => {
       this.setState({
         recommended: parsedResponse.data,
         formattedRecommended: formattedRecommended,
-        search: ''
+        search: '',
+        recommendedShowing: false
       })
     } catch (err) {
 
@@ -297,6 +299,12 @@ showUserArticles = async () => {
       })
     }
 
+    returnToNewsHome = () => {
+    this.setState({
+      showNews: false
+    })
+  }
+
   render() {
 
     let display = ''
@@ -329,7 +337,8 @@ showUserArticles = async () => {
           </form><br/>
           <div className='between-flex-container'>
             <div className=' popularArticlesContainer'>
-            <h2 className='header'>Recommended For You</h2>
+            {this.state.recommendedShowing ? <h2 className='header'>Recommended For You</h2> : <h2 className='header'>Search Results</h2>}
+            
               <ul>
                 {this.state.formattedRecommended}
               </ul>
@@ -349,7 +358,7 @@ showUserArticles = async () => {
 
         )
     } else {
-      display = <ShowNews articleToShow={this.state.articleToShow} toggleShowNews={this.toggleShowNews}/>
+      display = <ShowNews articleToShow={this.state.articleToShow} toggleShowNews={this.toggleShowNews} returnToNewsHome={this.returnToNewsHome}/>
     }
         
 
