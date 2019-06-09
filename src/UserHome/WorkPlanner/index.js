@@ -152,6 +152,30 @@ class WorkPlanner extends Component {
   }
 
   
+  sortByTime = (array) => {
+    let swapHappened = true
+    let length = array.length
+    
+
+    while (swapHappened === true) {
+        swapHappened = false
+        for (let i = 0; i < (array.length-1); i++) {
+            if (Number(array[i].time) > Number(array[i + 1].time)) {
+                let current = array[i]
+                array[i] = array[i + 1]
+
+                array[i + 1] = current
+
+                swapHappened = true
+            }
+        }
+     
+        
+    }
+
+    return array
+  }
+
 
   sortTasks = (array) => {
     const a = []
@@ -169,7 +193,9 @@ class WorkPlanner extends Component {
       }
 
     }
-   
+   const newA = this.sortByTime(a)
+   const newB = this.sortByTime(b)
+   const newC = this.sortByTime(c)
 
     const finalArr = a.concat(b.concat(c))
     return finalArr
@@ -254,7 +280,7 @@ class WorkPlanner extends Component {
               <div className='timeColumn'>
                 <select name="time" className={task._id} value={task.time} onChange={this.editTask}>
                 
-                <option value="0">N/A</option>
+                <option value="18">N/A</option>
                 <option value="7">7AM</option>
                 <option value="8">8AM</option>
                 <option value="9">9AM</option>
@@ -343,7 +369,7 @@ class WorkPlanner extends Component {
               <input type='text' name='description' value={this.state.newTask.description} onChange={this.handleNewTaskChange} placeholder='description'/>
               <select name="time" onChange={this.handleNewTaskChange} placeholder='time' value={this.state.newTask.time}>
               <option value="default" disabled>Time</option>
-                <option value="N/A">N/A</option>
+                <option value="18">N/A</option>
                 <option value="7">7AM</option>
                 <option value="8">8AM</option>
                 <option value="9">9AM</option>
