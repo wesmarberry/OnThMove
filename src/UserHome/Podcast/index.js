@@ -142,8 +142,8 @@ class Podcast extends Component {
       return (
           <li key={i} className='liContainer'>
             <div className='center-column-flex-container podcastCol'>
-            <img src={podcast.image}/><br/>
-            {podcast.title}<br/>
+            <img className='podcastImg' src={podcast.image}/><br/>
+            {podcast.title_original}<br/>
             </div>
             <div className='buttonCol'>
             <button className='button addRec' id={podcast.id} onClick={this.addPodcast}>Add</button>
