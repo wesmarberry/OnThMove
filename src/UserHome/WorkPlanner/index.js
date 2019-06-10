@@ -311,9 +311,20 @@ class WorkPlanner extends Component {
     }
   }
 
+  dateToNiceVersion = (date) => {
+    const split = date.split('-')
+    return split[1] + '.' + split[2] + '.' + split[0]
+  }
 
   render() {
+    
+    let date = ''
 
+    if (this.state.date === this.state.rawCurrentDate) {
+      date = <p className='header underlined currentDate'>Tasks For Today</p>
+    } else {
+      date = <p className='header underlined currentDate'>Tasks For {this.dateToNiceVersion(this.state.date)}</p>
+    }
         
     console.log(this.state);
     return(
@@ -329,7 +340,7 @@ class WorkPlanner extends Component {
           </div>
 
           <div className='between-flex-container'>
-              <p className='currentDate'>Today is {this.state.currentDate}</p>
+              {date}
               <form>
                 <input className='dateChanger' type='date' name='date' value={this.state.date} onChange={this.changeDate}/>
               </form>

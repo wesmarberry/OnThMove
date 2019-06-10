@@ -428,12 +428,24 @@ class EntPlanner extends Component {
     }
   }
   
-
+  dateToNiceVersion = (date) => {
+    const split = date.split('-')
+    return split[1] + '.' + split[2] + '.' + split[0]
+  }
 
 
   render() {
     console.log(this.state);
     let display = ''
+    let date = ''
+
+    if (this.state.date === this.state.rawCurrentDate) {
+      date = <h2 className='header underlined'>Today</h2>
+    } else {
+      date = <h2 className='header underlined'>{this.dateToNiceVersion(this.state.date)}</h2>
+    }
+
+
     if (this.state.formattedRelated.length === 0) {
       display = (
         <div className='loading'>
@@ -462,7 +474,7 @@ class EntPlanner extends Component {
           </div>
           <div className='overallEntContainer'>
             <div className='center-column-flex-container entContainer'>
-             <h2 className='header underlined'>Today</h2>
+             {date}
               <ul>
               {this.state.formattedDaysEnt}
               </ul>
