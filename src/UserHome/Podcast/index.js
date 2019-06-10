@@ -330,7 +330,7 @@ class Podcast extends Component {
               <h2 className='header'>Popular Podcasts</h2>
               <PopularContainer popular={this.state.popular} addPodcast={this.addPodcast}/>
             </div>
-            <div className='popularPodcastsContainer'>
+            <div className='popularPodcastsContainer1'>
               <h2 className='header'>Search Results</h2>
               {this.state.searchedPodcasts}
             </div>
