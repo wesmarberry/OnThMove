@@ -332,7 +332,7 @@ showUserArticles = async () => {
           </div>
           
           <form onSubmit={this.searchNews} className='searchForm'>
-            <input type='text' name='search' value={this.state.search} onChange={this.handleChange} placeholder='Search For Podcasts'/>
+            <input type='text' name='search' value={this.state.search} onChange={this.handleChange} placeholder='Search For Articles'/>
             <button className='button' type='submit'>Search</button>
           </form><br/>
           <div className='between-flex-container'>
