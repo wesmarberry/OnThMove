@@ -339,7 +339,7 @@ class Podcast extends Component {
               <h2 className='header'>Search Results</h2>
               <div>
               <ul className='center-column-flex-container'>
-              {this.state.searchPodcasts}
+              {this.state.searchedPodcasts}
               </ul>
               </div>
             </div>
