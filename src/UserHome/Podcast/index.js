@@ -295,8 +295,11 @@ class Podcast extends Component {
               <PopularContainer popular={this.state.popular} addPodcast={this.addPodcast}/>
             </div>
             <div className='popularPodcastsContainer'>
-              <h2 className='header'>Recommended For You</h2>
+              <h2 className='header recHeader'>Recommended For You</h2>
+              <ul className='center-column-flex-container'>
               {this.state.recommended}
+              </ul>
+              
             </div>
           </div>
 
@@ -332,7 +335,9 @@ class Podcast extends Component {
             </div>
             <div className='popularPodcastsContainer1'>
               <h2 className='header'>Search Results</h2>
-              {this.state.searchedPodcasts}
+              <ul className='center-column-flex-container'>
+              {this.state.searchPodcasts}
+              </ul>
             </div>
           </div>
 
