@@ -369,7 +369,8 @@ class WorkPlanner extends Component {
             </li>
             {this.state.tasks}
            </ul>
-           <form className='newTaskForm' onSubmit={this.createNewTask}>
+           <form className='newTaskForm1' onSubmit={this.createNewTask}>
+              <div className='newTaskForm'>
               <select className='select-css'name="priority" onChange={this.handleNewTaskChange} placeholder='Priority' value={this.state.newTask.priority}>
                 <option value="default" disabled selected>Priority</option>
                 <option value="1">A</option>
@@ -393,6 +394,7 @@ class WorkPlanner extends Component {
                 <option value="16">4PM</option>
                 <option value="17">5PM</option>
                </select>
+               </div>
                <button className='button' type='submit'>Create New Task</button>
            </form>
           </div>

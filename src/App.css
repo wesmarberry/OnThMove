@@ -398,8 +398,20 @@ body {
 .newTaskForm {
   display: flex;
   justify-content: space-between;
+  /*align-items: center;*/
+  width: 75%;
+}
+
+.newTaskForm1 {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   width: 85%;
+}
+
+.newTaskForm1 button {
+  margin-left: 20px;
+  width: 75px;
 }
 
 .newTaskForm input {
@@ -646,6 +658,21 @@ ul {
 @media only screen and (max-width: 385px) {
   .recHeader {
     font-size: 17px;
+  }
+  .newTaskForm {
+    margin-left: -25px;
+  }
+}
+
+@media only screen and (max-width: 430px) {
+  .newTaskForm1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .newTaskForm1 button {
+    margin-top: 10px;
   }
 }
 

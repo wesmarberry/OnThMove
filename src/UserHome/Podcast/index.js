@@ -296,9 +296,11 @@ class Podcast extends Component {
             </div>
             <div className='popularPodcastsContainer'>
               <h2 className='header recHeader'>Recommended For You</h2>
+              <div>
               <ul className='center-column-flex-container'>
               {this.state.recommended}
               </ul>
+              </div>
               
             </div>
           </div>
@@ -335,9 +337,11 @@ class Podcast extends Component {
             </div>
             <div className='popularPodcastsContainer1'>
               <h2 className='header'>Search Results</h2>
+              <div>
               <ul className='center-column-flex-container'>
               {this.state.searchPodcasts}
               </ul>
+              </div>
             </div>
           </div>
 
