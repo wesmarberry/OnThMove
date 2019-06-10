@@ -47,7 +47,7 @@ showUserArticles = async () => {
             
               <img className='clickableImg' src={article.image} id={article._id} onClick={this.showArticle}/><br/>
               {article.title}<br/>
-              <button className='button' id={article._id} onClick={this.deleteArticle}>Delete</button>
+              <button className='button userDelete' id={article._id} onClick={this.deleteArticle}>Delete</button>
 
           </li>
           )
