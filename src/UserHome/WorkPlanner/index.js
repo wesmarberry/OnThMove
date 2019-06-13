@@ -25,7 +25,7 @@ class WorkPlanner extends Component {
   
 
 
-
+  // when the component loads the date is set and the user's tasks are shown
   componentDidMount() {
     this.setState({
       date: this.props.getCurrentDate(),
@@ -42,9 +42,10 @@ class WorkPlanner extends Component {
   }
 
 
-
+  // if the user changes the date then the date is updated and the newtask is update with the 
+  // changed date
   changeDate = (e) => {
-    console.log(e.currentTarget);
+    
     this.setState({
       [e.currentTarget.name]: e.currentTarget.value,
       newTask: {
@@ -52,9 +53,12 @@ class WorkPlanner extends Component {
         [e.currentTarget.name]: e.currentTarget.value
       }
     })
+
+    // re-renders the day's tasks if the date is changed
     this.showDayTasks()
   }
 
+  // updates state to reflect the user creating a new task
   handleNewTaskChange = (e) => {
     console.log(e.currentTarget);
     this.setState({
@@ -66,10 +70,11 @@ class WorkPlanner extends Component {
     })
   }
   
+
+  // creates a new task for the user based on the form submission
   createNewTask = async (e) => {
     e.preventDefault()
-    console.log('state when creating');
-    console.log(this.state);
+    
     try {
       const response = await fetch(process.env.REACT_APP_API_CALL + 'task', {
         method: 'POST',
@@ -80,8 +85,7 @@ class WorkPlanner extends Component {
         }
       })
       const parsedResponse = await response.json();
-      console.log('parsed Response from create');
-      console.log(parsedResponse);
+      // resets the newtask fields  upon submission
       this.setState({
         newTask: {
           description: '',
@@ -93,10 +97,11 @@ class WorkPlanner extends Component {
       })
       this.showDayTasks()
     } catch (err) {
-
+      console.log(err);
     }
   }
 
+  // updates the state when the user updates one of their tasks
   editTask = async (e) => {
     await this.setState({
       editTask: {
@@ -108,19 +113,10 @@ class WorkPlanner extends Component {
     await this.handleEditTaskChange()
   }
 
-  handleEditTaskChange = async (e) => {
-    // console.log(e.currentTarget);
-    // console.log(e.currentTarget.name);
-    // console.log(e.currentTarget.value);
-    // this.setState({
-    //   editTask: {
-    //     ...this.state.editTask,
-    //     [e.currentTarget.name]: e.currentTarget.value
-    //   }
 
-    // })
-    // console.log('================');
-    console.log(this.state.editTask);
+  // updates the task in the database 
+  handleEditTaskChange = async (e) => {
+   
     try {
       
       const response = await fetch(process.env.REACT_APP_API_CALL + 'task/' + this.state.taskIdToEdit + '/edit', {
@@ -132,26 +128,28 @@ class WorkPlanner extends Component {
         }
       })
       const parsedResponse = await response.json();
-      console.log('parsed Response from edit');
-      console.log(parsedResponse);
+      // resets the edit task form in state
       this.setState({
         editTask: {}
       })
+
+      // re-renders the day's tasks
       this.showDayTasks()
 
     } catch (err) {
-
+      console.log(err);
     }
 
   }
 
+  // function to convert the raw date to a number
   convertDateToNumber = (date) => {
     const newDate = date.split('-').join('')
     const numDate = Number(newDate)
     return numDate
   }
 
-  
+  // bubble sort method used to sort the user's tasks by time
   sortByTime = (array) => {
     let swapHappened = true
     let length = array.length
@@ -176,7 +174,7 @@ class WorkPlanner extends Component {
     return array
   }
 
-
+  // function to sort the user's tasks by priority then by time
   sortTasks = (array) => {
     const a = []
     const b = []
@@ -193,14 +191,20 @@ class WorkPlanner extends Component {
       }
 
     }
-   const newA = this.sortByTime(a)
-   const newB = this.sortByTime(b)
-   const newC = this.sortByTime(c)
 
+    // sorts each of the task arrays by time
+    const newA = this.sortByTime(a)
+    const newB = this.sortByTime(b)
+    const newC = this.sortByTime(c)
+
+    // combines all of the sorted arrays
     const finalArr = a.concat(b.concat(c))
     return finalArr
   }
 
+
+  // function called when the component mounts to update tasks that were originally on past dates
+  // if the task was not marked completed it is updated to be shown on the current date
   updateDateOnPastTasks = async (id) => {
 
     
@@ -214,15 +218,14 @@ class WorkPlanner extends Component {
         }
       })
       const parsedResponse = await response.json();
-      console.log('parsed Response on update date');
-      console.log(parsedResponse);
-      
+
 
     } catch (err) {
-
+      console.log(err);
     }
   }
 
+  // shows the user's tasks that match the current date
   showDayTasks = async () => {
     
     try {
@@ -235,26 +238,21 @@ class WorkPlanner extends Component {
       })
 
       const parsedResponse = await response.json();
-      console.log('parsed Response');
-      console.log(parsedResponse);
+      
+      // creates an array with all of the users tasks that are on the current date
       const daysTasks = await parsedResponse.data.tasks.filter((task) => {
 
 
         if (task.date === this.state.date) {
           return task
         }
-        if ((this.convertDateToNumber(task.date) < this.convertDateToNumber(this.state.rawCurrentDate)) && (task.completed === 'false')) {
-          task.date = this.state.rawCurrentDate
-
-          return task
-          
-        }
+        
       })
-      console.log(daysTasks);
+      
+      // calls the sort task function
       const newDaysTasks = this.sortTasks(daysTasks)
 
-      console.log('this is new days tasks');
-      console.log(newDaysTasks);
+      // creates an array of formatted tasks that can be edited with the edit function
       const formattedDaysTasks = newDaysTasks.map((task, i) => {
         return (
           <li key={task._id}>
@@ -307,10 +305,11 @@ class WorkPlanner extends Component {
       })
 
     } catch (err) {
-
+      console.log(err);
     }
   }
 
+  // function to convert the raw date to a readable version
   dateToNiceVersion = (date) => {
     const split = date.split('-')
     return split[1] + '.' + split[2] + '.' + split[0]
@@ -320,13 +319,14 @@ class WorkPlanner extends Component {
     
     let date = ''
 
+    // conditional to display the current date or today's date
     if (this.state.date === this.state.rawCurrentDate) {
       date = <p className='header underlined currentDate'>Tasks For Today</p>
     } else {
       date = <p className='header underlined currentDate'>Tasks For {this.dateToNiceVersion(this.state.date)}</p>
     }
         
-    console.log(this.state);
+    
     return(
         <div>
           <div className='between-flex-container'>

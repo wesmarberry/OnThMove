@@ -20,6 +20,7 @@ class Podcast extends Component {
 
   }
 
+  // when the component loads the find functinos are called
   componentDidMount() {
     this.setState({
       userId: this.props.userId
@@ -30,6 +31,7 @@ class Podcast extends Component {
   }
 
 
+  // finds popular podcasts when the component loads
   findPopular = async () => {
     try {
       const response = await fetch(process.env.REACT_APP_API_CALL + 'podcast/popular', {
@@ -40,20 +42,21 @@ class Podcast extends Component {
         }
       })
       const parsedResponse = await response.json();
-      console.log('parsed Response from popular');
-      console.log(parsedResponse);
+      
+      
 
       this.setState({
         popular: parsedResponse.data
       })
 
     } catch (err) {
-
+      console.log(err);
     }
   }
 
+  // when the user clicks the "add" button the podcast is created and added to the user's database
   addPodcast = async (e) => {
-    console.log(e.currentTarget);
+    
     const body = e.currentTarget.id
 
     try { 
@@ -65,18 +68,18 @@ class Podcast extends Component {
           'Content-Type': 'application/json'
         }
       })
-      console.log('got past apicall');
+      
       const parsedResponse = await response.json();
-      console.log('parsed Response from add');
-      console.log(parsedResponse);
+      // re-renders the user's podcasts
       this.showUsersPodcasts()
 
     } catch (err) {
-
+      console.log(err);
     }
 
   }
   
+  // finds all of the user's podcasts
   showUsersPodcasts = async () => {
     try {
       const response = await fetch(process.env.REACT_APP_API_CALL + 'user/' + this.props.userId, {
@@ -88,8 +91,7 @@ class Podcast extends Component {
       })
 
       const parsedResponse = await response.json();
-      console.log('parsed Response');
-      console.log(parsedResponse);
+      
       
       this.setState({
         userPodcasts: parsedResponse.data.podcasts
@@ -98,10 +100,12 @@ class Podcast extends Component {
       })
 
     } catch (err) {
-
+      console.log(err);
     }
   }
 
+
+  // shows the user's podcast when the user clicks on the podcast image
   showPodcast = async (e) => {
     console.log(e.currentTarget);
     try {
@@ -113,18 +117,20 @@ class Podcast extends Component {
         }
       })
       const parsedResponse = await response.json();
-      console.log('parsed Response from show');
-      console.log(parsedResponse);
+      
+      // conditionally renders the show podcast component
       this.setState({
         podcastToShow: parsedResponse.data,
         showPodcast: true
       })
+
       this.props.showPlaying()
     } catch (err) {
-
+      console.log(err);
     }
   }
 
+  // searches for podcasts based on the user input into the search form
   searchPodcasts = async (e) => {
     e.preventDefault()
     try {
@@ -136,17 +142,17 @@ class Podcast extends Component {
         }
       })
       const parsedResponse = await response.json();
-      console.log('parsed Response from search');
-      console.log(parsedResponse);
+      
+      // formats the response from the search to be displayed
       const displaySearch = parsedResponse.data.body.results.map((podcast, i) => {
       return (
           <li key={i} className='liContainer'>
             <div className='center-column-flex-container podcastCol'>
-            <img className='podcastImg' src={podcast.image}/><br/>
-            {podcast.title_original}<br/>
+              <img className='podcastImg' src={podcast.image}/><br/>
+              {podcast.title_original}<br/>
             </div>
             <div className='buttonCol'>
-            <button className='button addRec' id={podcast.id} onClick={this.addPodcast}>Add</button>
+              <button className='button addRec' id={podcast.id} onClick={this.addPodcast}>Add</button>
             </div>
           </li>
 
@@ -157,10 +163,12 @@ class Podcast extends Component {
         searchedPodcasts: displaySearch
       })
     } catch (err) {
-
+      console.log(err);
     }
   }
 
+
+  // finds recommended podcasts based on past user's podcasts when the component mounts
   findRecommendedPodcasts = async () => {
 
     try {
@@ -172,8 +180,7 @@ class Podcast extends Component {
         }
       })
       const parsedResponse = await response.json();
-      console.log('parsed Response from recommended');
-      console.log(parsedResponse);
+      // displays the results of the search for recommended podcasts
       let displaySearch = ''
       if (parsedResponse.data.body.recommendations === undefined) {
         if (parsedResponse.data.body.results === undefined) {
@@ -184,14 +191,14 @@ class Podcast extends Component {
           displaySearch = parsedResponse.data.body.results.map((podcast, i) => {
               return (
                 <li key={i} className='liContainer'>
-            <div className='center-column-flex-container podcastCol'>
-            <img src={podcast.image}/><br/>
-            {podcast.title}<br/>
-            </div>
-            <div className='buttonCol'>
-            <button className='button addRec' id={podcast.id} onClick={this.addPodcast}>Add</button>
-            </div>
-          </li>
+                  <div className='center-column-flex-container podcastCol'>
+                    <img src={podcast.image}/><br/>
+                    {podcast.title}<br/>
+                  </div>
+                  <div className='buttonCol'>
+                    <button className='button addRec' id={podcast.id} onClick={this.addPodcast}>Add</button>
+                  </div>
+                </li>
 
               )
           })
@@ -219,10 +226,11 @@ class Podcast extends Component {
         recommended: displaySearch
       })
     } catch (err) {
-
+      console.log(err);
     }
   }
 
+  // deeltes a user's podcast
   deletePodcast = async (e) => {
     console.log(e.currentTarget.id);
     try {
@@ -234,22 +242,26 @@ class Podcast extends Component {
         }
       })
       const parsedResponse = await response.json();
-      console.log('parsed Response from recommended');
-      console.log(parsedResponse);
+      // re-renders the user's podcasts after deleting
       this.showUsersPodcasts()
     } catch (err) {
 
     }
   }
 
+  // funciton that resets the component when the back button is clicked
+  // it is passed down to the show podccast component
   returnToPodcastHome = () => {
     this.setState({
       showPodcast: false,
       searchedPodcasts: []
     })
+    // hides the podcast that is playing
     this.props.hidePlaying()
   }
 
+
+  // handles a form change
   handleChange = (e) => {
     
     this.setState({
@@ -259,16 +271,15 @@ class Podcast extends Component {
 
   render() {
     
-    console.log('================');
-    console.log(this.props);
+   
 
 
     let display = ''
     let searchDisplay = ''
-    if (this.state.showPodcast) {
+    if (this.state.showPodcast) {// displays the show podcast page if the showPodcast state is true
       display = <ShowPodcast podcastToShow={this.state.podcastToShow} returnToPodcastHome={this.returnToPodcastHome} setPodcast={this.props.setPodcast} pausePodcast={this.props.pausePodcast} unmutePodcast={this.props.unmutePodcast} resetPodcastState={this.props.resetPodcastState} showPlaying={this.props.showPlaying}/>
     } else if (this.state.searchedPodcasts.length === 0) {
-      display = (
+      display = (// displays recommended podcasts if the user has not searched for podcasts
         <div>
           <div className='between-flex-container'>
               <img className='image-logo-small' src='image (7).png'/>
@@ -310,7 +321,7 @@ class Podcast extends Component {
          
         </div>
         )
-    } else {
+    } else {// displays search results if the user has searched
       display = (
         <div>
           <div className='between-flex-container'>

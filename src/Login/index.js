@@ -20,8 +20,7 @@ class Login extends Component {
   componentDidMount = () => {
     navigator.geolocation.getCurrentPosition((data) => {
       const latLong = data
-      console.log(latLong);
-      // console.log(latLong.coords.latitude);
+      
       this.setState({
         lat: latLong.coords.latitude,
         lng: latLong.coords.longitude
@@ -45,7 +44,7 @@ class Login extends Component {
   handleSubmit = async (e) => {
     e.preventDefault()
 
-    console.log(this.state);
+    
     try {
 
       const loginResponse = await fetch(process.env.REACT_APP_API_CALL + 'user/new', {
@@ -58,7 +57,7 @@ class Login extends Component {
       })
 
       const parsedResponse = await loginResponse.json();
-      console.log(parsedResponse);
+      
 
 
 
@@ -87,7 +86,7 @@ class Login extends Component {
 
 
     } catch (err) {
-
+    	console.log(err);
     }
   }
 

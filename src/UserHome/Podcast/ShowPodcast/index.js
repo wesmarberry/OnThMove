@@ -21,30 +21,14 @@ class ShowPodcast extends Component {
 			await this.setState({
 				audio: audio
 			})
-			// await this.setState({
-			// 	episodeToShow: <embed src={audio} type='audio/mpeg' height='100px' width='200px'/>
-			// })
+			
 			console.log(this.state);
 		}
 
-		// passPodcast = () => {
-		// 	console.log('hit passPodcast');
-		// 	this.props.returnToPodcastHome(this.state.episodeToShow)
-		// }
-
-		// setPodcastHere = (e) => {
-		// 	console.log(e.currentTarget);
-		// 	this.setState({
-		// 		podcastPlaying: <audio  controls>
-		// 					  <source src={e.currentTarget.id} type="audio/mpeg"/>
-		// 					</audio>
-		// 	})
-		// 	this.props.setPodcast(this.state.podcastPlaying)
-		// }
 
 
 		render() {
-			// <embed src={this.state.audio} type='audio/mpeg' auto_play="false" height='100px' width='200px'/>
+			// renders the podcasts episodes
 			const episodes = this.props.podcastToShow.episodes.map((episode, i) => {
 				const ep = 'Episode ' + (i + 1)
 				return(
@@ -68,7 +52,7 @@ class ShowPodcast extends Component {
 						</div>
 						<button className='button' onClick={() => {
 							      this.props.returnToPodcastHome();
-							      this.props.unmutePodcast();
+							      
 							  	}}>Back</button>
   						<Collapsible trigger='Show Episodes' className='epTrigger' openedClassName='epTrigger' triggerWhenOpen='Hide Episodes'>
 							{episodes}

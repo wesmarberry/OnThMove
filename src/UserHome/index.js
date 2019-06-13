@@ -40,7 +40,7 @@ class UserHome extends Component {
         username: this.props.username
       },
       userId: this.props.id,
-      currentDate: this.getCurrentDateNiceVersion(),
+      currentDate: this.getCurrentDateNiceVersion(),// sets the state to the current date
       // an alternate username display only to be re-rendered when the edit submit is clicked
       usernameDisplay: this.props.username
 
@@ -49,6 +49,8 @@ class UserHome extends Component {
 
   }
 
+
+  // function to display the current date in a readable version
   getCurrentDateNiceVersion = () => {
     const months = ['January', 'Febuary', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
     let today = new Date();
@@ -60,6 +62,7 @@ class UserHome extends Component {
     return today
   }
 
+  // function to get the current date in the raw version ie. 2019-06-12
   getCurrentDate = () => {
     let today = new Date();
     const dd = String(today.getDate()).padStart(2, '0');
@@ -84,7 +87,7 @@ class UserHome extends Component {
       })
 
       const parsedResponse = await response.json();
-      console.log(parsedResponse);
+
 
 
 
@@ -96,7 +99,7 @@ class UserHome extends Component {
 
 
     } catch (err) {
-
+      console.log(err);
     }
 }
   // logs the user out and resets the login page and renders the login component
@@ -112,7 +115,7 @@ class UserHome extends Component {
       })
 
       const parsedResponse = await response.json();
-      console.log(parsedResponse);
+      
 
 
       
@@ -122,7 +125,7 @@ class UserHome extends Component {
 
 
     } catch (err) {
-
+      console.log(err);
     }
   }
   // renders the EditUser component
@@ -160,7 +163,6 @@ class UserHome extends Component {
       })
 
       const parsedResponse = await updatedUser.json();
-      console.log(parsedResponse);
       
       // hides the modal and resets the state
       this.setState({
@@ -175,20 +177,13 @@ class UserHome extends Component {
     }
   }
 
-  // function that is passed down to NewNightForm component and the ActivityContainer component
-  // this function is used to lift up state when the home "buttons" are clicked
-  // It resets the component (UserActivityContainer)
-  resetPage = () => {
-    
-  }
-  
+ 
+  // function to display whichever component the user clicks on 
   toggleComponent = (e) => {
-    console.log(e.currentTarget);
     if (e.currentTarget.id === 'podcast') {
       this.setState({
         [e.currentTarget.id]: true
       })
-      // this.showPlaying() 
     } else {
       this.setState({
         [e.currentTarget.id]: true
@@ -196,86 +191,69 @@ class UserHome extends Component {
     }
   }
   
+  // function that is passed down to the child components that lifts resets the home page
   homePage = () => {
-    console.log('hit home reset');
     this.setState({
       workPlanner: false,
       entPlanner: false,
       podcast: false,
       news: false
     })
-    console.log(this.state);
   }
 
-
+  // function to set the current podcast that is playing if the user changes the podcast or 
+  // initially presses play on a podcast
   setPodcast = async (id) => {
     
-
+    // if statement to tell if the user has clicked on a new podcast or if no podcast is playing
     if (this.state.podcastPlaying === '') {
-      console.log('hit set podcast');
+
       await this.setState({
         podcastPlaying: <audio id='podcastPlaying' className={id} autoPlay controls>
                   <source src={id} type="audio/mpeg"/>
                 </audio>
       })
 
-      
-      console.log('this is state');
-      console.log(this.state);
-      // document.getElementById('podcastPlaying').play()
-      // document.getElementById('podcastPlaying').muted = true
-      console.log('this is podcas playing')
-      console.log(this.state.podcastPlaying);
+      // displays the podcast that is playing
       this.showPlaying()
-    } else {
-      // document.getElementById('podcastPlaying').play()
-    }
+    } 
   }
 
+
+  // every time "play" is hit on a podcast this function is called
+  // the podcast is either changed if it is different than the podcast currently playing
+  // or plays/pauses the currently playing podcast
   resetPodcastState = async (e) => {
     
-    console.log('this is e.currentTarget');
-    console.log(e.currentTarget);
+    
     const id = e.currentTarget.id
-    console.log(id);
+
     if (this.state.podcastPlaying === '') {
-      console.log('hit first if');
+
       this.setPodcast(id)
     } else {
 
-      console.log(this.state.podcastPlaying.props.className);
-      console.log(id);
+      // tests whether the currently playin podcast is the same as the one clicked
       if (id != this.state.podcastPlaying.props.className) {
-        console.log('hit reset');
-        // if (document.getElementById('podcastPlayingShowing') !== null) {
-
-        //   document.getElementById('podcastPlayingShowing').setAttribute('id', 'podcastPlayingHidden');
-        // }
+        
         await this.setState({
           podcastPlaying: ''
         })
-        console.log(this.state);
+
 
         await this.setPodcast(id)
       } else {
-        console.log('hit else');
+
         this.setPodcast(id)
       }
       
     }
   }
 
-  unmutePodcast = () => {
-    if (document.getElementById('podcastPlaying') !== null) {
-      document.getElementById('podcastPlaying').muted = false
-      
-    }
-  }
+  
 
-  pausePodcast = () => {
-    document.getElementById('podcastPlaying').pause()
-  }
-
+ 
+  // shows the currently podcast playing on the podcast home page
   showPlaying = () => {
     if (document.getElementById('podcastPlayingHidden') !== null && this.state.podcastPlaying !== '') {
 
@@ -284,6 +262,7 @@ class UserHome extends Component {
     }
   }
 
+  // hides the playing podcast when not on the podcast show page
   hidePlaying = () => {
     if (document.getElementById('podcastPlayingShowing') !== null) {
       document.getElementById('podcastPlayingShowing').setAttribute('id', 'podcastPlayingHidden');
@@ -296,7 +275,7 @@ class UserHome extends Component {
     if (this.state.usernameDisplay === '') {// conditional statement to wait until ComponentDidMount is finished running
                                             // in order to render the page
       display = ''
-    } else {// if newActivity is true then render the NewNightForm component
+    } else {// if everything has loaded the conditional render is started
       if (this.state.workPlanner) {
         display = <WorkPlanner homePage={this.homePage} getCurrentDate={this.getCurrentDate} getCurrentDateNiceVersion={this.getCurrentDateNiceVersion} userId={this.state.userId}/>
       } else if (this.state.entPlanner) {

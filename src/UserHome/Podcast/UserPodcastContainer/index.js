@@ -18,6 +18,7 @@ class UserPodcastContainer extends Component {
 
 
 		render() {
+			// formats the user's podcasts to display on the page
 			const displayPodcasts = this.props.userPodcasts.map((podcast, i) => {
 				return (
 						<li key={i}>

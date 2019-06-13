@@ -19,7 +19,7 @@ class Register extends Component {
   componentDidMount = () => {
     navigator.geolocation.getCurrentPosition((data) => {
       const latLong = data
-      console.log(latLong);
+      
       
       this.setState({
         lat: latLong.coords.latitude,
@@ -56,7 +56,7 @@ class Register extends Component {
       })
 
       const parsedResponse = await loginResponse.json();
-      console.log(parsedResponse);
+      
 
 
 
@@ -82,7 +82,7 @@ class Register extends Component {
 
 
     } catch (err) {
-
+      console.log(err);
     }
   }
 
