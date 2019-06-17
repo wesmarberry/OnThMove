@@ -69,7 +69,7 @@ Project Wireframe: https://imgur.com/a/SuSmmH8
 * ReactJS
 * CSS
 
-### Back End (https://github.com/wesmarberry/Capstone-back-end)
+### Back End (https://github.com/wesmarberry/OnTheMove-back-end)
 * NodeJS
 * Express
 * MongoDB
