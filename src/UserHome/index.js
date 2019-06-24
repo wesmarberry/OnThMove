@@ -13,7 +13,8 @@ class UserHome extends Component {
     this.state = {
       userToEdit: {
         email: '',
-        username: ''
+        username: '',
+        password: ''
       },
       userId: '',
       usernameDisplay: '',
@@ -37,7 +38,8 @@ class UserHome extends Component {
      this.setState({
       userToEdit: {
         email: this.props.email,
-        username: this.props.username
+        username: this.props.username,
+        password: ''
       },
       userId: this.props.id,
       currentDate: this.getCurrentDateNiceVersion(),// sets the state to the current date
@@ -145,6 +147,7 @@ class UserHome extends Component {
         [e.currentTarget.name]: e.currentTarget.value
       }
     })
+    console.log(this.state);
   }
   // closes the modal and updates the user's information
   closeAndEdit = async (e) => {
@@ -163,7 +166,7 @@ class UserHome extends Component {
       })
 
       const parsedResponse = await updatedUser.json();
-      
+      console.log(parsedResponse);
       // hides the modal and resets the state
       this.setState({
         userToEdit: parsedResponse.data,

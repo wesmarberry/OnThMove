@@ -4,6 +4,7 @@ import './App.css';
 import Login from './Login'
 import Register from './Register'
 import UserHome from './UserHome'
+import ResetPage from './ResetPage'
 
 
 class App extends Component {
@@ -16,7 +17,10 @@ class App extends Component {
       email: '',
       logged: false,
       needToRegister: false,
-      position: ''
+      forgotPassword: false,
+      position: '',
+      emailToSend: '',
+      passwordResetMessage: ''
     }
   }
   // function for setting the state with the user that just logged in or registered
@@ -39,6 +43,12 @@ class App extends Component {
       needToRegister: true
     })
   }
+
+  showReset = () => {
+    this.setState({
+      forgotPassword: true
+    })
+  }
   // function to handle log out and reset to login conditions
   resetToLogin = () => {
     this.setState({
@@ -46,11 +56,43 @@ class App extends Component {
       userId: '',
       email: '',
       logged: false,
-      needToRegister: false
+      needToRegister: false,
+      forgotPassword: false,
+      passwordResetMessage: '',
+      emailToSend: ''
     })
   }
 
+  handleEmailChange = (e) => {
+    this.setState({
+      [e.currentTarget.name]: e.currentTarget.value
+    })
+  }
   
+  resetPassword = async (e) => {
+    e.preventDefault()
+    console.log('hit reset password');
+    try {
+      const response = await fetch(process.env.REACT_APP_API_CALL + 'user/reset', {
+        method: 'POST',
+        credentials: 'include', // on every request we have to send the cookie
+        body: JSON.stringify(this.state),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      console.log('got past call');
+      const parsedResponse = await response.json();
+      console.log(parsedResponse);
+
+      this.setState({
+        passwordResetMessage: parsedResponse.data
+      })
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
 
   render(){
 
@@ -61,8 +103,10 @@ class App extends Component {
       display = <UserHome username={this.state.username} email={this.state.email} id={this.state.userId} resetToLogin={this.resetToLogin} position={this.state.position}/>
     } else if (this.state.needToRegister) { // if the user needs to register, render the register component
       display = <Register setUser={this.setUser} resetToLogin={this.resetToLogin}/>
+    } else if (this.state.forgotPassword) { 
+      display = <ResetPage resetToLogin={this.resetToLogin} handleEmailChange={this.handleEmailChange} passwordResetMessage={this.state.passwordResetMessage} resetPassword={this.resetPassword}/>
     } else {// if the user if not logged in or needs to register, display the log in component
-      display = <Login setUser={this.setUser} showRegister={this.showRegister}/>
+      display = <Login setUser={this.setUser} showRegister={this.showRegister} showReset={this.showReset}/>
     }
 
 

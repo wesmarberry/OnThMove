@@ -20,6 +20,9 @@ const EditUser = (props) => {
 					<label>
 						<input type='text' name='email' onChange={props.handleFormChange} value={props.userToEdit.email}/>
 					</label>
+					<label>
+						<input type='text' name='password' onChange={props.handleFormChange} value={props.userToEdit.password} placeholder='Password'/>
+					</label>
 					<button className='button' type="submit">Update User</button>
 				</form>
 			</div>

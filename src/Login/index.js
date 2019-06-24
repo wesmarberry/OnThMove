@@ -117,7 +117,8 @@ class Login extends Component {
             <div className='loginButtonContainer'>
               {display}
               <button className ='button' onClick={this.props.showRegister}>Register</button>
-            </div>
+            </div><br/>
+            <p onClick={this.props.showReset} className='forgotMsg'>Forgot Your Password?</p>
           </form>
           
           <p className='redMessage'>{this.state.message}</p><br/>

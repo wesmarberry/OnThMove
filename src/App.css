@@ -23,6 +23,30 @@
   color: #61dafb;
 }
 
+.forgotMsg {
+  font-size: 14px;
+  text-decoration: underline;
+  color: navy;
+  margin-top: -10px;
+}
+
+.forgotMsg:hover {
+  cursor: pointer;
+  color: white;
+}
+
+.resetInput {
+  width: 100%;
+}
+
+.resetBack {
+  margin-top: 20px;
+}
+
+.resetInput input {
+  width: 80%;
+}
+
 .entContainer {
   background-color: #2F4F4F;
   color: white;
